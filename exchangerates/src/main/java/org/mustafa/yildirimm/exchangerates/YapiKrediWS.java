@@ -17,10 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
-
-
-	public class YapiKrediWS {
+	public class YapiKrediWS extends BankWS {
 		public static void main(String[] args) throws IOException {
 		RestTemplate restTemplate = new RestTemplate();
 		String urlToken = "https://api.yapikredi.com.tr/auth/oauth/v2/token";
@@ -41,7 +38,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 		JsonNode accessToken = root.path("access_token");
 		JsonNode tokenType = root.path("token_type");
 		JsonNode expiresIn = root.path("expires_in");
-
 
 
 		String authorizationToken = tokenType.asText() + " " + accessToken.asText();

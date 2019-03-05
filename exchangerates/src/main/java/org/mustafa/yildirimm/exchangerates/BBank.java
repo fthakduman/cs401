@@ -1,16 +1,31 @@
 package org.mustafa.yildirimm.exchangerates;
 
 import java.io.BufferedReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class example {
+
+
+import com.fasterxml.jackson.core.JsonParser;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.*;
+
+
+
+public class BBank extends wsmodel {
+	
 
 
 	public static void main(String[] args) throws Exception {
 
-		example http = new example();
+		BBank http = new BBank();
 		System.out.println("Testing 1 - Send Http GET request");
 		http.sendGet();
 	
@@ -19,8 +34,8 @@ public class example {
 	// HTTP GET request
 	public void sendGet() throws Exception {
 
-		String url = "https://api.exchangeratesapi.io/latest?base=USD";
-
+		String url = "https://api.exchangeratesapi.io/latest?base=USD&symbols=TRY";
+		
 		URL obj = new URL(url);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -38,15 +53,26 @@ public class example {
 				new InputStreamReader(con.getInputStream()));
 		String inputLine;
 		StringBuffer response = new StringBuffer();
-		System.out.println(response);
+		
+		
 
 		while ((inputLine = in.readLine()) != null) {
 			response.append(inputLine);
 		}
+		System.out.println("RESS"+response);
+		
 		in.close();
+		
+		
+		//String json = "{\"name\": \"Bob\", \"id\": \"123\"}";
 
-		//print result
-		System.out.println(response.toString());
+		// Method 1: parsing into a JSON element
+		JsonObject jsonObject = new JsonParser().parse(response).getAsJsonObject();
+		System.out.println(jsonObject.get("TRY").getAsString());
+
+		// Method 2: parsing into a Java Object
+		wsmodel WSMODEL = new Gson().fromJson(response, wsmodel.class);
+		//System.out.println(ws);
 
 	}
 }
