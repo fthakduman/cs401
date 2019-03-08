@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 
 import org.springframework.http.HttpEntity;
@@ -17,8 +19,26 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.json.*;
+
 	public class YapiKrediWS extends BankWS {
-		public static void main(String[] args) throws IOException {
+		
+	JSONObject requestResponse = null;
+	
+	public YapiKrediWS(){
+		makeRequest();
+		
+	}
+	
+	public void printResponse(){
+		System.out.println(requestResponse.toString());
+	}
+	public void trimResponse(){
+		JSONObject trimmed = (JSONObject) requestResponse.get("exchangeRateList");
+		System.out.println(trimmed.toString());	
+	}
+		
+	private void makeRequest(){
 		RestTemplate restTemplate = new RestTemplate();
 		String urlToken = "https://api.yapikredi.com.tr/auth/oauth/v2/token";
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
@@ -34,7 +54,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 		HttpEntity<?> entity= new HttpEntity<Object>(body, headers);
 		ResponseEntity<String> result = restTemplate.exchange(urlToken, HttpMethod.POST, entity, String.class);
 		ObjectMapper mapper = new ObjectMapper();
-		JsonNode root = mapper.readTree(result.getBody());
+		JsonNode root = null;
+		try {
+			root = mapper.readTree(result.getBody());
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		JsonNode accessToken = root.path("access_token");
 		JsonNode tokenType = root.path("token_type");
 		JsonNode expiresIn = root.path("expires_in");
@@ -46,25 +72,61 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 		////////////////////////////////////////////////////////////////
 
 		StringBuilder urlBuilder = new StringBuilder("https://api.yapikredi.com.tr/api/investmentrates/v1/currencyRates");
-		URL url = new URL(urlBuilder.toString());
-		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-		conn.setRequestMethod("GET");
+		URL url = null;
+		try {
+			url = new URL(urlBuilder.toString());
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		HttpURLConnection conn = null;
+		try {
+			conn = (HttpURLConnection) url.openConnection();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			conn.setRequestMethod("GET");
+		} catch (ProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		conn.setRequestProperty("Authorization", authorizationToken);
-		System.out.println("Response code: " + conn.getResponseCode());
-		BufferedReader rd;
-		if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
-			rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-		} else {
-			rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+		try {
+			System.out.println("Response code: " + conn.getResponseCode());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		BufferedReader rd = null;
+		try {
+			if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+				rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			} else {
+				rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		StringBuilder sb = new StringBuilder();
 		String line;
-		while ((line = rd.readLine()) != null) {
-			sb.append(line);
+		try {
+			while ((line = rd.readLine()) != null) {
+				sb.append(line);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		rd.close();
+		try {
+			rd.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		requestResponse = new JSONObject(sb.toString());
 		conn.disconnect();
-		System.out.println(sb.toString());
-		
 	}
 }

@@ -19,16 +19,11 @@ import org.json.*;
 
 
 
-public class BBank extends wsmodel {
+public class BBank extends BankWS {
 	
-
-
-	public static void main(String[] args) throws Exception {
-
-		BBank http = new BBank();
-		System.out.println("Testing 1 - Send Http GET request");
-		http.sendGet();
 	
+	public BBank(){
+		
 	}
 
 	// HTTP GET request
@@ -67,11 +62,11 @@ public class BBank extends wsmodel {
 		//String json = "{\"name\": \"Bob\", \"id\": \"123\"}";
 
 		// Method 1: parsing into a JSON element
-		//JsonObject jsonObject = new JsonParser().parse(response).getAsJsonObject();
-		System.out.println(jsonObject.get("TRY").getAsString());
+		//JsonObject jsonObject = new JsonParser().parse(response.toString()).getAsJsonObject();
+		//System.out.println(jsonObject.get("TRY").getAsString());
 
 		// Method 2: parsing into a Java Object
-		//wsmodel WSMODEL = new Gson().fromJson(response, wsmodel.class);
+		//wsmodel WSMODEL = (new Gson()).fromJson(response, wsmodel.class);
 		//System.out.println(ws);
 
 	}
