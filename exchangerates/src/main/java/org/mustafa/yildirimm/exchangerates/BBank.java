@@ -67,11 +67,11 @@ public class BBank extends wsmodel {
 		//String json = "{\"name\": \"Bob\", \"id\": \"123\"}";
 
 		// Method 1: parsing into a JSON element
-		JsonObject jsonObject = new JsonParser().parse(response).getAsJsonObject();
+		//JsonObject jsonObject = new JsonParser().parse(response).getAsJsonObject();
 		System.out.println(jsonObject.get("TRY").getAsString());
 
 		// Method 2: parsing into a Java Object
-		wsmodel WSMODEL = new Gson().fromJson(response, wsmodel.class);
+		//wsmodel WSMODEL = new Gson().fromJson(response, wsmodel.class);
 		//System.out.println(ws);
 
 	}
