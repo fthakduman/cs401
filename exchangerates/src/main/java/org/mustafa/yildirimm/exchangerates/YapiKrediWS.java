@@ -34,8 +34,15 @@ import org.json.*;
 		System.out.println(requestResponse.toString());
 	}
 	public void trimResponse(){
-		JSONObject trimmed = (JSONObject) requestResponse.get("exchangeRateList");
-		System.out.println(trimmed.toString());	
+		JSONArray rateList =  ((JSONObject) requestResponse.get("response")).getJSONArray("exchangeRateList");
+		JSONObject currency = null;
+		for (int i=0; i<rateList.length(); i++) {
+			JSONObject temp = rateList.getJSONObject(i);
+		    if(temp.get("minorCurrency").equals("TL") && temp.get("majorCurrency").equals("USD")){
+		    	currency = temp;
+		    }
+		}
+		System.out.println(currency);	
 	}
 		
 	private void makeRequest(){
