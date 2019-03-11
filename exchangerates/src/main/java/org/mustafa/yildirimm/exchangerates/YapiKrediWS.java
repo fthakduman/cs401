@@ -7,6 +7,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -24,16 +26,24 @@ import org.json.*;
 	public class YapiKrediWS extends BankWS {
 		
 	JSONObject requestResponse = null;
+	JSONObject processedResponse = null;
+	
+	Date date;
+	SimpleDateFormat dateFormat;
+	SimpleDateFormat timeFormat;
+		      
 	
 	public YapiKrediWS(){
 		makeRequest();
-		
+		date = new Date();
+		dateFormat = new SimpleDateFormat ("yyyy.MM.dd");
+		timeFormat = new SimpleDateFormat ("hh:mm:ss a zzz");
 	}
 	
 	public void printResponse(){
 		System.out.println(requestResponse.toString());
 	}
-	public void trimResponse(){
+	public void processResponse(){
 		JSONArray rateList =  ((JSONObject) requestResponse.get("response")).getJSONArray("exchangeRateList");
 		JSONObject currency = null;
 		for (int i=0; i<rateList.length(); i++) {
@@ -42,6 +52,13 @@ import org.json.*;
 		    	currency = temp;
 		    }
 		}
+		  
+		 
+		currency.put("date", dateFormat.format(date));
+		currency.put("time", timeFormat.format(date));
+		
+		currency.remove("averageRate");
+
 		System.out.println(currency);	
 	}
 		
