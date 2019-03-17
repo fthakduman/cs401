@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.json.*;
-
 	public class YapiKrediWS extends BankWS {
 		
 	JSONObject requestResponse = null;
