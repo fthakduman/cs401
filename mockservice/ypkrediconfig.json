@@ -1,0 +1,16 @@
+{"elements": {
+"sell": "sellRate",
+"buy": "buyRate",
+"minor": "minorCurrency",
+"major": "majorCurrency",
+"minorChoice":"TL",
+"majorChoice":"USD"
+},
+
+"changes": {
+"sellChange": 10,
+"buyChange": 10,
+"swapCurrency":1
+}
+
+}
