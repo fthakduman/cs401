@@ -7,6 +7,6 @@ public class Main {
 		
 		bb.printResponse();
 		//yk.printResponse();
-		//yk.processResponse();
+		yk.processResponse();
 	}
 }
