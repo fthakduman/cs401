@@ -7,10 +7,11 @@
 "majorChoice":"USD"
 },
 
-"changes": {
+"faultmodel": {
 "sellChange": 10,
 "buyChange": 10,
 "swapCurrency":1
 }
+
 
 }
