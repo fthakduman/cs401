@@ -11,7 +11,7 @@ public class ProcessData {
 	JSONObject output= null;
 	JSONObject config = null;
 	HashMap<String, String> elements = new HashMap<String, String>();
-	HashMap<String, BigInteger> changes = new HashMap<String, BigInteger>();
+	HashMap<String, BigInteger> faultmodel = new HashMap<String, BigInteger>();
 	public ProcessData(JSONObject config){
 		this.config = config;
 	}
@@ -33,9 +33,18 @@ public class ProcessData {
 		elements.put("minorChoice", config.getJSONObject("elements").getString("minorChoice"));
 		elements.put("majorChoice", config.getJSONObject("elements").getString("majorChoice"));
 		
-		changes.put("sellChange", config.getJSONObject("changes").getBigInteger("sellChange"));
-		changes.put("buyChange", config.getJSONObject("changes").getBigInteger("buyChange"));
-		changes.put("swapCurrency", config.getJSONObject("changes").getBigInteger("swapCurrency"));
+		faultmodel.put("delayprobability", config.getJSONObject("faultmodel").getJSONObject("delay").getBigInteger("probability"));
+		faultmodel.put("delayamount", config.getJSONObject("faultmodel").getJSONObject("delay").getBigInteger("amount"));
+		////// sellfault
+		faultmodel.put("spositiveProb", config.getJSONObject("faultmodel").getJSONObject("sellfault").getBigInteger("positiveProb"));
+		faultmodel.put("spositiveRange", config.getJSONObject("faultmodel").getJSONObject("sellfault").getBigInteger("positiveRange"));
+		faultmodel.put("snegativeProb", config.getJSONObject("faultmodel").getJSONObject("sellfault").getBigInteger("negativeProb"));
+		faultmodel.put("snegativeRange", config.getJSONObject("faultmodel").getJSONObject("sellfault").getBigInteger("negativeRange"));
+		/////////buyfault
+		faultmodel.put("bpositiveProb", config.getJSONObject("faultmodel").getJSONObject("buyfault").getBigInteger("positiveProb"));
+		faultmodel.put("bpositiveRange", config.getJSONObject("faultmodel").getJSONObject("buyfault").getBigInteger("positiveRange"));
+		faultmodel.put("bnegativeProb", config.getJSONObject("faultmodel").getJSONObject("buyfault").getBigInteger("negativeProb"));
+		faultmodel.put("bnegativeRange", config.getJSONObject("faultmodel").getJSONObject("buyfault").getBigInteger("negativeRange"));
 	}
 	private void setOutput(JSONObject rates){
 		JSONArray array = rates.getJSONObject("response").getJSONArray("exchangeRateList");

@@ -1,4 +1,5 @@
-{"elements": {
+{
+"elements" : {
 "sell": "sellRate",
 "buy": "buyRate",
 "minor": "minorCurrency",
@@ -6,12 +7,27 @@
 "minorChoice":"TL",
 "majorChoice":"USD"
 },
+"faultmodel" : {
 
-"faultmodel": {
-"sellChange": 10,
-"buyChange": 10,
-"swapCurrency":1
+"delay": {
+"probability": 20,
+"amount": 1000
+},
+"sellfault": {
+"positiveProb":40,
+"positiveRange": 10,
+"negativeProb": 40,
+"negativeRange": 10
+},
+
+"buyfault": {
+"positiveProb": 40,
+"positiveRange": 10,
+"negativeProb": 40,
+"negativeRange": 10
 }
 
+
+}
 
 }
