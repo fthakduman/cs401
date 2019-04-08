@@ -24,7 +24,8 @@ public class ProcessData {
 		setKeys();
 		JSONObject rates = data.getRequestResponse();
 		setOutput(rates);
-		System.out.println(rates);
+		System.out.println(output.toString());
+		//System.out.println(rates);
 		
 		}
 	private void setKeys(){
@@ -50,21 +51,35 @@ public class ProcessData {
 	}
 	private void setOutput(JSONObject rates){
 		JSONArray array = rates.getJSONObject("response").getJSONArray("exchangeRateList");
+		JSONObject temp = null;
 		JSONObject object = new JSONObject();
 		for (int i=0; i<array.length(); i++) {
-			JSONObject temp = array.getJSONObject(i);
+			temp = array.getJSONObject(i);
 		    if(temp.get("minorCurrency").equals(elements.get("minorChoice")) && temp.get("majorCurrency").equals(elements.get("majorChoice"))){
-		    	JSONObject temp2 = new JSONObject();
-		    	temp2.put("sell", temp.get(elements.get("sell")));
-		    	object = temp2;
-		
-		
+		    	
+		    	String manipulatedSell = manipulateSell( (String) temp.get(elements.get("sell")));
+		    	temp.put(elements.get("sell"), manipulatedSell);
+		    	
+		    	String manipulatedBuy = manipulateBuy( (String) temp.get(elements.get("buy")));
+		    	temp.put(elements.get("buy"),manipulatedBuy );
+		    	array.put(i, temp);
+		    	
+		    	output = rates.put("response", array);
+		    
 		    }
 		    
 		}
 		
-		output = object;
+		//output = temp;
 		
+		try {
+			System.out.println("delay operation has started");
+			manipulateDelay();
+			
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	private void manipulateDelay() throws InterruptedException{
 		if( Math.random() <= (faultmodel.get("delayprobability").doubleValue()/100)) {

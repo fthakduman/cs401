@@ -10,20 +10,20 @@
 "faultmodel" : {
 
 "delay": {
-"probability": 20,
-"amount": 1000
+"probability": 90,
+"amount": 100
 },
 "sellfault": {
-"positiveProb":40,
+"positiveProb":0,
 "positiveRange": 10,
-"negativeProb": 40,
-"negativeRange": 10
+"negativeProb": 90,
+"negativeRange": 100
 },
 
 "buyfault": {
-"positiveProb": 40,
-"positiveRange": 10,
-"negativeProb": 40,
+"positiveProb": 90,
+"positiveRange": 100,
+"negativeProb": 0,
 "negativeRange": 10
 }
 
