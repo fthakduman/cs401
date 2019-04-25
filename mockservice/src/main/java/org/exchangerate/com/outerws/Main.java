@@ -26,7 +26,7 @@ public class Main {
 			}
 	        JSONObject object = new JSONObject(tokener);
 	        ProcessData data = new ProcessData(object);
-	        data.process();
+	       JSONObject o = data.getMockRates();
 	        
 	
 }

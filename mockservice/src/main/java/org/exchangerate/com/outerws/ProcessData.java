@@ -18,14 +18,14 @@ public class ProcessData {
 		this.config = config;
 	}
 	
-	public void process(){
+	public JSONObject getMockRates(){
 		data = new WSData();
 		data.makeRequest();
 		setKeys();
 		JSONObject rates = data.getRequestResponse();
 		setOutput(rates);
 		System.out.println(output.toString());
-		//System.out.println(rates);
+		return output;
 		
 		}
 	private void setKeys(){

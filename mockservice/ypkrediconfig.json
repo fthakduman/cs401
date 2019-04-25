@@ -1,6 +1,6 @@
 {
 "elements" : {
-"sell": "sellRate",
+"sell": "sellRate",	
 "buy": "buyRate",
 "minor": "minorCurrency",
 "major": "majorCurrency",
