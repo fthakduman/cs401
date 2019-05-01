@@ -1,5 +1,7 @@
-package org.exchangerate.com.outerws;
+	package org.exchangerate.com.outerws;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Random;
@@ -7,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 public class ProcessData {
 	WSData data= null;
@@ -15,7 +18,8 @@ public class ProcessData {
 	HashMap<String, String> elements = new HashMap<String, String>();
 	HashMap<String, BigInteger> faultmodel = new HashMap<String, BigInteger>();
 	public ProcessData(JSONObject config){
-		this.config = config;
+		  
+	        this.config = config;
 	}
 	
 	public JSONObject getMockRates(){

@@ -16,15 +16,15 @@ import java.io.InputStream;
 
 public class Main {
 	public static void main(String args []) {
-	        
+		JSONTokener tokener = null;
+		try {
+			tokener = new JSONTokener(new FileReader("ypkrediconfig.json"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+        JSONObject object = new JSONObject(tokener);
 
-	        JSONTokener tokener = null;
-			try {
-				tokener = new JSONTokener(new FileReader("ypkrediconfig.json"));
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-	        JSONObject object = new JSONObject(tokener);
+	     
 	        ProcessData data = new ProcessData(object);
 	       JSONObject o = data.getMockRates();
 	        

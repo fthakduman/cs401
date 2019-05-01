@@ -27,28 +27,22 @@ public class MyResource {
      *
      * @return String that will be returned as a text/plain response.
      */
-    @GET
+    @GET	
     @Produces(MediaType.APPLICATION_JSON)
     public Response getIt() {	
         JSONTokener tokener = null;
         JSONObject object = null;
         Response response = null;
-    			try {
-    				tokener = new JSONTokener(new FileReader("ypkrediconfig.json"));
-    			} catch (FileNotFoundException e) {
-    				e.printStackTrace();
-    			}
-    	        JSONObject config = new JSONObject(tokener);
-    	        ProcessData data = new ProcessData(config);
-    	         object = data.getMockRates();
+        
            
            try {
              
              response = Response.status(Status.OK).entity(object.toString()).build();
            } catch (Exception e) {
              System.out.println("error=" + e.getMessage());
-           }
+           }			
            return response;
-    }	
+    }
+    	
    
 }
