@@ -49,7 +49,8 @@ public class CompositeService {
 			normals.add(parseOutput(sendGetYkb));
 			System.out.println();
 		}
-		
+
+		//test commiti
 		// api üzerinden ykb'ye istek atma
 		ProcessData data = new ProcessData();
 		Bank ykb = data.getMockRates("YKB", true, false);
