@@ -50,6 +50,7 @@ public class CompositeService {
 			System.out.println();
 		}
 
+		//test comiti 3
 		//test commiti
 		// api üzerinden ykb'ye istek atma
 		ProcessData data = new ProcessData();
