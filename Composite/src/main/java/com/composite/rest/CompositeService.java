@@ -29,6 +29,7 @@ import com.google.gson.Gson;
 @Path("/getComposite")
 public class CompositeService {
 	private final String USER_AGENT = "Mozilla/5.0";
+	//private final String USER_AGENT = "Mozilla/5.0";
 
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
