@@ -1,0 +1,112 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="Composite:war exploded">
+    <output-path>$PROJECT_DIR$/Composite/target/Composite-1.0-SNAPSHOT</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <exploded>true</exploded>
+        <module>Composite</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="Composite" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.1.6" />
+          <element id="library" level="project" name="Maven: org.hibernate:hibernate-core:5.1.0.Final" />
+          <element id="library" level="project" name="Maven: org.jboss.logging:jboss-logging:3.3.0.Final" />
+          <element id="library" level="project" name="Maven: org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final" />
+          <element id="library" level="project" name="Maven: org.javassist:javassist:3.20.0-GA" />
+          <element id="library" level="project" name="Maven: antlr:antlr:2.7.7" />
+          <element id="library" level="project" name="Maven: org.apache.geronimo.specs:geronimo-jta_1.1_spec:1.1.1" />
+          <element id="library" level="project" name="Maven: org.jboss:jandex:2.0.0.Final" />
+          <element id="library" level="project" name="Maven: com.fasterxml:classmate:1.3.0" />
+          <element id="library" level="project" name="Maven: dom4j:dom4j:1.6.1" />
+          <element id="library" level="project" name="Maven: xml-apis:xml-apis:1.4.01" />
+          <element id="library" level="project" name="Maven: org.hibernate.common:hibernate-commons-annotations:5.0.1.Final" />
+          <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.9.13" />
+          <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-core-asl:1.9.13" />
+          <element id="library" level="project" name="Maven: org.apache.commons:commons-lang3:3.4" />
+          <element id="library" level="project" name="Maven: org.apache.commons:commons-collections4:4.0" />
+          <element id="library" level="project" name="Maven: log4j:log4j:1.2.17" />
+          <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.2.2" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-web:5.1.5.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-beans:5.1.5.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-core:5.1.5.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-jcl:5.1.5.RELEASE" />
+          <element id="library" level="project" name="Maven: javax.servlet:servlet-api:2.5" />
+          <element id="library" level="project" name="Maven: javax.mail:mail:1.4" />
+          <element id="library" level="project" name="Maven: javax.activation:activation:1.1" />
+          <element id="library" level="project" name="Maven: com.sun.jersey:jersey-server:1.8" />
+          <element id="library" level="project" name="Maven: asm:asm:3.1" />
+          <element id="library" level="project" name="Maven: com.sun.jersey:jersey-core:1.8" />
+          <element id="library" level="project" name="Maven: com.sun.jersey.contribs:jersey-multipart:1.8" />
+          <element id="library" level="project" name="Maven: org.jvnet:mimepull:1.4" />
+          <element id="library" level="project" name="Maven: com.iyzipay:iyzipay-java:2.0.61" />
+          <element id="library" level="project" name="Maven: commons-io:commons-io:2.6" />
+          <element id="library" level="project" name="Maven: org.json:json:20180813" />
+          <element id="library" level="project" name="Maven: com.owlike:genson:0.99" />
+          <element id="library" level="project" name="Maven: nz.ac.waikato.modeljunit:modeljunit:2.5" />
+          <element id="library" level="project" name="Maven: net.sf.jung:jung-algorithms:2.0.1" />
+          <element id="library" level="project" name="Maven: net.sf.jung:jung-api:2.0.1" />
+          <element id="library" level="project" name="Maven: net.sourceforge.collections:collections-generic:4.01" />
+          <element id="library" level="project" name="Maven: colt:colt:1.2.0" />
+          <element id="library" level="project" name="Maven: concurrent:concurrent:1.3.4" />
+          <element id="library" level="project" name="Maven: net.sf.jung:jung-graph-impl:2.0.1" />
+          <element id="library" level="project" name="Maven: net.sf.jung:jung-io:2.0.1" />
+          <element id="library" level="project" name="Maven: org.codehaus.woodstox:wstx-asl:3.2.6" />
+          <element id="library" level="project" name="Maven: stax:stax-api:1.0.1" />
+          <element id="library" level="project" name="Maven: net.sf.jung:jung-jai:2.0.1" />
+          <element id="library" level="project" name="Maven: net.sf.jung:jung-visualization:2.0.1" />
+          <element id="library" level="project" name="Maven: junit:junit:4.4" />
+          <element id="library" level="project" name="Maven: org.uispec4j:uispec4j:jdk16:2.4" />
+          <element id="library" level="project" name="Maven: org.seleniumhq.selenium:selenium-java:3.4.0" />
+          <element id="library" level="project" name="Maven: org.seleniumhq.selenium:selenium-api:3.4.0" />
+          <element id="library" level="project" name="Maven: org.seleniumhq.selenium:selenium-chrome-driver:3.4.0" />
+          <element id="library" level="project" name="Maven: org.seleniumhq.selenium:selenium-remote-driver:3.4.0" />
+          <element id="library" level="project" name="Maven: cglib:cglib-nodep:3.2.4" />
+          <element id="library" level="project" name="Maven: org.apache.commons:commons-exec:1.3" />
+          <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.10" />
+          <element id="library" level="project" name="Maven: commons-logging:commons-logging:1.2" />
+          <element id="library" level="project" name="Maven: com.google.guava:guava:21.0" />
+          <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpclient:4.5.3" />
+          <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpcore:4.4.6" />
+          <element id="library" level="project" name="Maven: net.java.dev.jna:jna:4.1.0" />
+          <element id="library" level="project" name="Maven: net.java.dev.jna:jna-platform:4.1.0" />
+          <element id="library" level="project" name="Maven: org.seleniumhq.selenium:selenium-edge-driver:3.4.0" />
+          <element id="library" level="project" name="Maven: org.seleniumhq.selenium:selenium-firefox-driver:3.4.0" />
+          <element id="library" level="project" name="Maven: org.seleniumhq.selenium:selenium-ie-driver:3.4.0" />
+          <element id="library" level="project" name="Maven: org.seleniumhq.selenium:selenium-opera-driver:3.4.0" />
+          <element id="library" level="project" name="Maven: org.seleniumhq.selenium:selenium-safari-driver:3.4.0" />
+          <element id="library" level="project" name="Maven: org.seleniumhq.selenium:selenium-support:3.4.0" />
+          <element id="library" level="project" name="Maven: org.hamcrest:hamcrest-core:1.3" />
+          <element id="library" level="project" name="Maven: org.w3c.css:sac:1.3" />
+          <element id="library" level="project" name="Maven: net.sourceforge.cssparser:cssparser:0.9.22" />
+          <element id="library" level="project" name="Maven: net.sourceforge.htmlunit:htmlunit:2.26" />
+          <element id="library" level="project" name="Maven: xalan:xalan:2.7.2" />
+          <element id="library" level="project" name="Maven: xalan:serializer:2.7.2" />
+          <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpmime:4.5.3" />
+          <element id="library" level="project" name="Maven: net.sourceforge.htmlunit:htmlunit-core-js:2.26" />
+          <element id="library" level="project" name="Maven: net.sourceforge.htmlunit:neko-htmlunit:2.25" />
+          <element id="library" level="project" name="Maven: xerces:xercesImpl:2.11.0" />
+          <element id="library" level="project" name="Maven: org.eclipse.jetty.websocket:websocket-client:9.4.3.v20170317" />
+          <element id="library" level="project" name="Maven: org.eclipse.jetty:jetty-util:9.4.1.v20170120" />
+          <element id="library" level="project" name="Maven: org.eclipse.jetty:jetty-io:9.4.1.v20170120" />
+          <element id="library" level="project" name="Maven: org.eclipse.jetty:jetty-client:9.4.3.v20170317" />
+          <element id="library" level="project" name="Maven: org.eclipse.jetty:jetty-http:9.4.3.v20170317" />
+          <element id="library" level="project" name="Maven: org.eclipse.jetty.websocket:websocket-common:9.4.3.v20170317" />
+          <element id="library" level="project" name="Maven: org.eclipse.jetty.websocket:websocket-api:9.4.3.v20170317" />
+          <element id="library" level="project" name="Maven: com.codeborne:phantomjsdriver:1.4.0" />
+          <element id="library" level="project" name="Maven: org.seleniumhq.selenium:htmlunit-driver:2.26" />
+          <element id="library" level="project" name="Maven: javax.servlet:javax.servlet-api:3.1.0" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/Composite/target/Composite-1.0-SNAPSHOT/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="Composite/web/Web" />
+    </root>
+  </artifact>
+</component>
