@@ -11,6 +11,8 @@ import java.util.Iterator;
 
 public class AdaptedYKBService implements CurrencyDataAdapter {
 
+    private static volatile AdaptedYKBService serviceInstance;
+
     String bankName = null;
     LocalDateTime requestTime = null;
     String majorCurrency = null;
@@ -19,14 +21,12 @@ public class AdaptedYKBService implements CurrencyDataAdapter {
     double buyRate = 0;
     JSONObject serviceResponse;
 
-    public AdaptedYKBService(String bankName,String majorCurrency,String minorCurrency) {
+    private AdaptedYKBService(String bankName,String majorCurrency,String minorCurrency) {
         this.bankName = bankName;
         this.majorCurrency = majorCurrency;
         this.minorCurrency = minorCurrency;
     }
 
-    public AdaptedYKBService() {
-    }
 
 
     @Override
@@ -39,7 +39,7 @@ public class AdaptedYKBService implements CurrencyDataAdapter {
     }
     private void parseResponse(){
         if(serviceResponse == null){
-            throw new NullPointerException("The bank service response is null");
+            throw new NullPointerException("The bank base.collector.service response is null");
         }
         else{
             JSONArray responseArray = ((JSONObject) serviceResponse.get("response")).getJSONArray("exchangeRateList");
@@ -54,6 +54,13 @@ public class AdaptedYKBService implements CurrencyDataAdapter {
 
 
         }
+    }
+    public void refresh(){
+        this.sellRate = 0;
+        this.buyRate = 0;
+        this.requestTime = null;
+        this.serviceResponse = null;
+
     }
 
     public String getBankName() {
@@ -78,6 +85,19 @@ public class AdaptedYKBService implements CurrencyDataAdapter {
 
     public double getBuyRate() {
         return buyRate;
+    }
+
+
+    public static AdaptedYKBService getInstance(String bankName,String majorCurrency,String minorCurrency) {
+        if(serviceInstance == null) {
+            synchronized (AdaptedYKBService.class) {
+                if(serviceInstance == null) {
+                    serviceInstance = new AdaptedYKBService(bankName,majorCurrency,minorCurrency);
+
+                }
+            }
+        }
+        return serviceInstance;
     }
 
     @Override

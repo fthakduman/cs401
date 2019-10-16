@@ -1,7 +1,6 @@
 package adapter;
 
 import java.time.LocalDateTime;
-import java.util.Calendar;
 
 public interface CurrencyDataAdapter {
 
