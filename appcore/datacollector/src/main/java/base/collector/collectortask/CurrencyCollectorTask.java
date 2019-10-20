@@ -3,6 +3,7 @@ package base.collector.collectortask;
 import adaptedservices.AdaptedYKBService;
 import base.collector.service.YKBRateImplServiceImpl;
 import base.collector.ykbmodel.YKBRateImpl;
+import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,6 @@ import java.util.concurrent.TimeUnit;
 public class CurrencyCollectorTask {
     private static final Logger logger = LoggerFactory.getLogger(CurrencyCollectorTask.class);
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-
     @Autowired
     private YKBRateImplServiceImpl ykbRateImplService;
 

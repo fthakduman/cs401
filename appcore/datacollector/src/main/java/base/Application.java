@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
@@ -17,7 +19,7 @@ import java.util.Map;
 
 @SpringBootApplication
 @EnableScheduling
-public class Application implements CommandLineRunner {
+public class Application  extends SpringBootServletInitializer implements CommandLineRunner{
 
     @Autowired
     private ElasticsearchOperations es;
@@ -39,6 +41,10 @@ public class Application implements CommandLineRunner {
 
         rates.forEach(x -> System.out.println(x));
 
+    }
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(Application.class);
     }
 
     //useful for debug, print elastic search details
