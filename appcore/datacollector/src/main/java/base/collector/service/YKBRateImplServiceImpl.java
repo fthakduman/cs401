@@ -11,6 +11,7 @@ import base.collector.ykbmodel.YKBRateImpl;
 @Service
 public class YKBRateImplServiceImpl implements YKBRateImplService {
 
+    @Autowired
     private YKBRepository ykbRepository;
 
 

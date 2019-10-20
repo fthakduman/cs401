@@ -30,6 +30,9 @@ public class YKBRateImpl implements YKBRate {
         this.majorCurrency = majorCurrency;
         this.minorCurrency = minorCurrency;
     }
+    public YKBRateImpl() {
+
+    }
 
     public void setCurrencyYear(int currencyYear) {
         this.currencyYear = currencyYear;

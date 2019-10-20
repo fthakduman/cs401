@@ -11,10 +11,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import base.collector.service.YKBRateImplServiceImpl;
 import base.collector.ykbmodel.YKBRateImpl;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.Map;
 
 @SpringBootApplication
+@EnableScheduling
 public class Application implements CommandLineRunner {
 
     @Autowired
@@ -31,25 +33,11 @@ public class Application implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         printElasticSearchInfo();
-
-        YKBRateImpl ykbRate = new YKBRateImpl("YKB", "USD", "TL");
-        AdaptedYKBService adapter = AdaptedYKBService.getInstance("YKB", "USD", "TL");
-        adapter.makeRequest();
-        ykbRate.setSellRate(adapter.getSellRate());
-        ykbRate.setBuyRate(adapter.getBuyRate());
-        ykbRate.setCurrencyYear(adapter.getRequestTime().getYear());
-        adapter.refresh();
-        ykbRateImplService.save(ykbRate);
-
-
-        //fuzzey search
-        Page<YKBRateImpl> books = ykbRateImplService.findYKBRateImplByBankNameEquals("Rambabu", new PageRequest(0, 10));
-
+        Page<YKBRateImpl> rates = ykbRateImplService.findYKBRateImplByBankNameEquals("YKB", new PageRequest(0, 10));
 
         //List<Book> books = ykbRateImplService.findByTitle("Elasticsearch Basics");
 
-        books.forEach(x -> System.out.println(x));
-
+        rates.forEach(x -> System.out.println(x));
 
     }
 
