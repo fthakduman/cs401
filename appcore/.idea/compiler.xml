@@ -6,9 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="datacollector" />
         <module name="dataadapter" />
+        <module name="datacollector" />
+        <module name="userapi" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="userservice" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

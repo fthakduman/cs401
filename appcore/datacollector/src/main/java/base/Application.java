@@ -1,6 +1,5 @@
 package base;
 
-import adaptedservices.AdaptedYKBService;
 import org.elasticsearch.client.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -12,7 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import base.collector.service.YKBRateImplServiceImpl;
-import base.collector.ykbmodel.YKBRateImpl;
+import base.collector.model.YKBRateImpl;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.Map;
@@ -37,7 +36,8 @@ public class Application  extends SpringBootServletInitializer implements Comman
         printElasticSearchInfo();
         Page<YKBRateImpl> rates = ykbRateImplService.findYKBRateImplByBankNameEquals("YKB", new PageRequest(0, 10));
 
-        //List<Book> books = ykbRateImplService.findByTitle("Elasticsearch Basics");
+        //List<Book> books = ykbRateImplver
+        // Service.findByTitle("Elasticsearch Basics");
 
         rates.forEach(x -> System.out.println(x));
 

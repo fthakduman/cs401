@@ -6,7 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import base.collector.repository.YKBRepository;
-import base.collector.ykbmodel.YKBRateImpl;
+import base.collector.model.YKBRateImpl;
 
 @Service
 public class YKBRateImplServiceImpl implements YKBRateImplService {

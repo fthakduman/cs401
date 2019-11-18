@@ -4,5 +4,6 @@
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/dataadapter" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/datacollector" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/userapi" charset="UTF-8" />
   </component>
 </project>

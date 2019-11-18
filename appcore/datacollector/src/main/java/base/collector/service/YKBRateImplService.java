@@ -2,7 +2,7 @@ package base.collector.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import base.collector.ykbmodel.YKBRateImpl;
+import base.collector.model.YKBRateImpl;
 
 public interface YKBRateImplService {
     YKBRateImpl save(YKBRateImpl book);

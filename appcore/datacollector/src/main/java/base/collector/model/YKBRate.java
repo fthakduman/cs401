@@ -1,4 +1,4 @@
-package base.collector.ykbmodel;
+package base.collector.model;
 
 import java.time.DayOfWeek;
 import java.time.Month;

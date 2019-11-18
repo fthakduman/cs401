@@ -2,19 +2,15 @@ package base.collector.collectortask;
 
 import adaptedservices.AdaptedYKBService;
 import base.collector.service.YKBRateImplServiceImpl;
-import base.collector.ykbmodel.YKBRateImpl;
-import org.apache.log4j.BasicConfigurator;
+import base.collector.model.YKBRateImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.concurrent.TimeUnit;
 
 @Component
 public class CurrencyCollectorTask {
@@ -34,6 +30,7 @@ public class CurrencyCollectorTask {
         ykbRate.setSellRate(adapter.getSellRate());
         ykbRate.setBuyRate(adapter.getBuyRate());
         ykbRate.setCurrencyYear(adapter.getRequestTime().getYear());
+        ykbRate.setCurrencyHour(adapter.getRequestTime().getHour());
         ykbRateImplService.save(ykbRate);
     }
 }

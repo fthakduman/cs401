@@ -43,9 +43,8 @@ public class AdaptedYKBService implements CurrencyDataAdapter {
         }
         else{
             JSONArray responseArray = ((JSONObject) serviceResponse.get("response")).getJSONArray("exchangeRateList");
-            Iterator responseIterotor = responseArray.iterator();
-            while(responseIterotor.hasNext()){
-                JSONObject tmp = (JSONObject) responseIterotor.next();
+            for(int i=0; i<responseArray.length(); i++){
+                JSONObject tmp = (JSONObject) responseArray.get(i);
                 if(tmp.get("majorCurrency").equals(majorCurrency) && tmp.get("minorCurrency").equals(minorCurrency)){
                     this.sellRate = Double.valueOf((String) tmp.get("sellRate"));
                     this.buyRate = Double.valueOf((String) tmp.get("buyRate"));
