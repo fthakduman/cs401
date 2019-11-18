@@ -13,6 +13,7 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -23,7 +24,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User findByName(String username) {
+    public User findUserByUserName(String username) {
         return (User) userRepository.findUserByUsername(username);
     }
 
