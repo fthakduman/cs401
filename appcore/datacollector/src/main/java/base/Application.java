@@ -34,7 +34,7 @@ public class Application  extends SpringBootServletInitializer implements Comman
     public void run(String... args) throws Exception {
 
         printElasticSearchInfo();
-        Page<YKBRateImpl> rates = ykbRateImplService.findYKBRateImplByBankNameEquals("YKB", new PageRequest(0, 10));
+        Page<YKBRateImpl> rates = ykbRateImplService.findYKBRateImplByBankNameEquals("YapıKrediBank", new PageRequest(0, 10));
 
         //List<Book> books = ykbRateImplver
         // Service.findByTitle("Elasticsearch Basics");

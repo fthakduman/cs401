@@ -19,5 +19,4 @@ public interface YKBRepository extends ElasticsearchRepository<YKBRateImpl, Stri
 
     List<YKBRateImpl> findYKBRateImplBySellRateIsLessThan(double sellAmount);
 
-
 }

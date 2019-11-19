@@ -6,12 +6,12 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import java.time.DayOfWeek;
 import java.time.Month;
 
-@Document(indexName = "rates", type = "ykb")
-public class YKBRateImpl implements YKBRate {
+@Document(indexName = "rates", type = "dnz")
+public class DNZRateImpl implements DNZRate {
 
     @Id
     private String id;
-    private final String  bankName = "YapıKrediBank";
+    private final String  bankName = "DenizBank";
     private String majorCurrency = null;
     private String minorCurrency = null;
     private double sellRate = 0;
@@ -24,34 +24,9 @@ public class YKBRateImpl implements YKBRate {
     private int currencyMinute;
     private DayOfWeek currencyDayOfWeek;
 
-
-    public YKBRateImpl(String majorCurrency, String minorCurrency) {
+    public DNZRateImpl( String majorCurrency, String minorCurrency) {
         this.majorCurrency = majorCurrency;
         this.minorCurrency = minorCurrency;
-    }
-    public YKBRateImpl() {
-
-    }
-
-    public void setCurrencyYear(int currencyYear) {
-        this.currencyYear = currencyYear;
-    }
-
-    public void setCurrencyMonth(Month currencyMonth) {
-        this.currencyMonth = currencyMonth;
-    }
-
-    @Override
-    public Month getCurrencyMonth() {
-        return null;
-    }
-
-    public void setSellRate(double sellRate) {
-        this.sellRate = sellRate;
-    }
-
-    public void setBuyRate(double buyRate) {
-        this.buyRate = buyRate;
     }
 
     @Override
@@ -79,22 +54,47 @@ public class YKBRateImpl implements YKBRate {
         return buyRate;
     }
 
-    public void setCurrencyMonthValue(int currencyMonthValue) {
+    @Override
+    public void setSellRate(double sellRate) {
+        this.sellRate = sellRate;
+    }
+
+    @Override
+    public void setBuyRate(double buyRate) {
+        this.buyRate = buyRate;
+    }
+
+    @Override
+    public void setCurrencyYear( int currencyYear) {
+        this.currencyYear = currencyYear;
+    }
+
+    @Override
+    public void setCurrencyMonth(Month currencyMonth) {
+        this.currencyMonth = currencyMonth;
+    }
+
+    @Override
+    public void setCurrencyMonthValue(int curerncyMonthValue) {
         this.currencyMonthValue = currencyMonthValue;
     }
 
+    @Override
     public void setCurrencyDayOfMonthValue(int currencyDayOfMonthValue) {
         this.currencyDayOfMonthValue = currencyDayOfMonthValue;
     }
 
+    @Override
     public void setCurrencyHour(int currencyHour) {
         this.currencyHour = currencyHour;
     }
 
+    @Override
     public void setCurrencyMinute(int currencyMinute) {
         this.currencyMinute = currencyMinute;
     }
 
+    @Override
     public void setCurrencyDayOfWeek(DayOfWeek currencyDayOfWeek) {
         this.currencyDayOfWeek = currencyDayOfWeek;
     }
@@ -106,7 +106,12 @@ public class YKBRateImpl implements YKBRate {
 
     @Override
     public int getCurrencyMonthValue() {
-        return currencyDayOfMonthValue;
+        return currencyMonthValue;
+    }
+
+    @Override
+    public Month getCurrencyMonth() {
+        return currencyMonth;
     }
 
     @Override
@@ -128,7 +133,4 @@ public class YKBRateImpl implements YKBRate {
     public int getMinute() {
         return currencyMinute;
     }
-
-
-
 }

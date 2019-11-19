@@ -1,6 +1,9 @@
 package base.collector.collectortask;
 
+import adaptedservices.AdaptedDNZService;
 import adaptedservices.AdaptedYKBService;
+import base.collector.model.DNZRateImpl;
+import base.collector.service.DNZRateImplServiceImpl;
 import base.collector.service.YKBRateImplServiceImpl;
 import base.collector.model.YKBRateImpl;
 import org.slf4j.Logger;
@@ -19,18 +22,44 @@ public class CurrencyCollectorTask {
     @Autowired
     private YKBRateImplServiceImpl ykbRateImplService;
 
+    @Autowired
+    private DNZRateImplServiceImpl dnzRateImplService;
 
     @Scheduled(cron = "0 * * * * ?")
     public void scheduleYKBDataCollector() {
         logger.info("Cron Task :: Execution Time - {}", dateTimeFormatter.format(LocalDateTime.now()));
+        executeYKBCOllector();
+        executeDNZCollector();
+    }
 
-        YKBRateImpl ykbRate = new YKBRateImpl("YKB", "USD", "TL");
-        AdaptedYKBService adapter = AdaptedYKBService.getInstance("YKB", "USD", "TL");
+    private void executeYKBCOllector(){
+        YKBRateImpl ykbRate = new YKBRateImpl( "USD", "TL");
+        AdaptedYKBService adapter = AdaptedYKBService.getInstance( "USD", "TL");
         adapter.makeRequest();
         ykbRate.setSellRate(adapter.getSellRate());
         ykbRate.setBuyRate(adapter.getBuyRate());
         ykbRate.setCurrencyYear(adapter.getRequestTime().getYear());
+        ykbRate.setCurrencyMonth(adapter.getRequestTime().getMonth());
+        ykbRate.setCurrencyMonthValue(adapter.getRequestTime().getMonthValue());
+        ykbRate.setCurrencyDayOfWeek(adapter.getRequestTime().getDayOfWeek());
         ykbRate.setCurrencyHour(adapter.getRequestTime().getHour());
+        ykbRate.setCurrencyMinute(adapter.getRequestTime().getMinute());
         ykbRateImplService.save(ykbRate);
+        adapter.refresh();
+    }
+    private void executeDNZCollector(){
+        DNZRateImpl dnzRate = new DNZRateImpl( "USD", "TL");
+        AdaptedDNZService adapter = AdaptedDNZService.getInstance( "USD", "TL");
+        adapter.makeRequest();
+        dnzRate.setSellRate(adapter.getSellRate());
+        dnzRate.setBuyRate(adapter.getBuyRate());
+        dnzRate.setCurrencyYear(adapter.getRequestTime().getYear());
+        dnzRate.setCurrencyMonth(adapter.getRequestTime().getMonth());
+        dnzRate.setCurrencyMonthValue(adapter.getRequestTime().getMonthValue());
+        dnzRate.setCurrencyDayOfWeek(adapter.getRequestTime().getDayOfWeek());
+        dnzRate.setCurrencyHour(adapter.getRequestTime().getHour());
+        dnzRate.setCurrencyMinute(adapter.getRequestTime().getMinute());
+        dnzRateImplService.save(dnzRate);
+        adapter.refresh();
     }
 }
