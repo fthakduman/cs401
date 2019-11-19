@@ -9,6 +9,7 @@ import base.collector.model.YKBRateImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -19,20 +20,23 @@ import java.time.format.DateTimeFormatter;
 public class CurrencyCollectorTask {
     private static final Logger logger = LoggerFactory.getLogger(CurrencyCollectorTask.class);
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
     @Autowired
+    @Qualifier("ykbservice")
     private YKBRateImplServiceImpl ykbRateImplService;
 
     @Autowired
+    @Qualifier("dnzservice")
     private DNZRateImplServiceImpl dnzRateImplService;
 
     @Scheduled(cron = "0 * * * * ?")
     public void scheduleYKBDataCollector() {
         logger.info("Cron Task :: Execution Time - {}", dateTimeFormatter.format(LocalDateTime.now()));
-        executeYKBCOllector();
+        executeYKBCollector();
         executeDNZCollector();
     }
 
-    private void executeYKBCOllector(){
+    private void executeYKBCollector(){
         YKBRateImpl ykbRate = new YKBRateImpl( "USD", "TL");
         AdaptedYKBService adapter = AdaptedYKBService.getInstance( "USD", "TL");
         adapter.makeRequest();

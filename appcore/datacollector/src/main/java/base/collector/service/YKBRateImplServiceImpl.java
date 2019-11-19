@@ -1,6 +1,7 @@
 package base.collector.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import base.collector.repository.YKBRepository;
 import base.collector.model.YKBRateImpl;
 
 @Service
+@Qualifier("ykbservice")
 public class YKBRateImplServiceImpl implements YKBRateImplService {
 
     @Autowired

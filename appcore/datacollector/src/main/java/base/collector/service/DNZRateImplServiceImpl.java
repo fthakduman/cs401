@@ -4,17 +4,20 @@ package base.collector.service;
 import base.collector.model.DNZRateImpl;
 import base.collector.repository.DNZRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
+@Qualifier("dnzservice")
 public class DNZRateImplServiceImpl implements DNZRateImplService{
+
     @Autowired
     private DNZRepository dnzRepository;
 
 
-
+    @Autowired
     public void setDnzRepository(DNZRepository dnzRepository) {
         this.dnzRepository = dnzRepository;
     }
