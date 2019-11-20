@@ -15,7 +15,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.Map;
 
-@SpringBootApplication(scanBasePackages={"base.user"})
+@SpringBootApplication()
 public class Application  extends SpringBootServletInitializer implements CommandLineRunner{
 
     @Autowired

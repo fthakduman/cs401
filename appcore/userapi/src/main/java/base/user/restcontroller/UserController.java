@@ -1,8 +1,12 @@
 package base.user.restcontroller;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-import base.user.model.User;
+import base.user.model.UserImpl;
+import base.user.model.UserRole;
+import base.user.repository.UserRepository;
 import base.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,97 +25,41 @@ public class UserController {
     public static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    UserService userService; //Service which will do all data retrieval/manipulation work
+    UserRepository userRepository; //Service which will do all data retrieval/manipulation work
 
     // -------------------Retrieve All Users---------------------------------------------
 
     @RequestMapping(value = "/user/", method = RequestMethod.GET)
-    public ResponseEntity<List<User>> listAllUsers() {
-        List<User> users = userService.findAllUsers();
-        if (users.isEmpty()) {
+    public ResponseEntity<List<UserImpl>> listAllUsers() {
+        List<UserImpl> userImpls =  new ArrayList<UserImpl>();
+        Iterator<UserImpl> iterator = userRepository.findAll().iterator();
+        while (iterator.hasNext()){
+            userImpls.add(iterator.next());
+        }
+
+        if (userImpls.isEmpty()) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
             // You many decide to return HttpStatus.NOT_FOUND
         }
-        return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+        return new ResponseEntity<List<UserImpl>>(userImpls, HttpStatus.OK);
     }
-
-    // -------------------Retrieve Single User------------------------------------------
-
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getUser(@PathVariable("id") String id) {
-        logger.info("Fetching User with id {}", id);
-        User user = userService.findById(id);
-        if (user == null) {
-            logger.error("User with id {} not found.", id);
-            return new ResponseEntity(("User with id " + id
-                    + " not found"), HttpStatus.NOT_FOUND);
+    @PostMapping("/registeruser")
+    public UserImpl saveUser(@RequestBody UserImpl user) throws Exception {
+        if(!userRepository.findUserImplByUserName(user.getUserName()).isEmpty()){
+            throw new Exception("user exist");
         }
-        return new ResponseEntity<User>(user, HttpStatus.OK);
-    }
-
-    // -------------------Create a User-------------------------------------------
-
-    @RequestMapping(value = "/user/", method = RequestMethod.POST)
-    public ResponseEntity<?> createUser(@RequestBody User user, UriComponentsBuilder ucBuilder) {
-        logger.info("Creating User : {}", user);
-
-        if (userService.isUserExist(user)) {
-            logger.error("Unable to create. A User with name {} already exist", user.getUsername());
-            return new ResponseEntity("Unable to create. A User with name " +
-                    user.getUsername() + " already exist.",HttpStatus.CONFLICT);
+        else if ( !(user.getUserRole().contentEquals(UserRole.ADMIN_ROLE ) ||user.getUserRole().contentEquals(UserRole.PREMIUM_ROLE ) || user.getUserRole().contentEquals(UserRole.STANDART_ROLE )) ){
+            throw new Exception("No such userRole");
         }
-        userService.saveUser(user);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/api/user/{id}").buildAndExpand(user.getId()).toUri());
-        return new ResponseEntity<String>(headers, HttpStatus.CREATED);
-    }
-
-    // ------------------- Update a User ------------------------------------------------
-
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> updateUser(@PathVariable("id") String id, @RequestBody User user) {
-        logger.info("Updating User with id {}", id);
-
-        User currentUser = userService.findById(id);
-
-        if (currentUser == null) {
-            logger.error("Unable to update. User with id {} not found.", id);
-            return new ResponseEntity("Unable to upate. User with id " + id + " not found.",
-                    HttpStatus.NOT_FOUND);
+        else{
+            return userRepository.save(user);
         }
 
-        currentUser.setUsername(user.getUsername());
-        currentUser.setUserRole(user.getUserRole());
-
-        userService.updateUser(currentUser);
-        return new ResponseEntity<User>(currentUser, HttpStatus.OK);
+    }
+    @GetMapping("/getuser/{username}")
+    public List<UserImpl> getUsers(@PathVariable String username){
+        return userRepository.findUserImplByUserName(username);
     }
 
-    // ------------------- Delete a User-----------------------------------------
-
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteUser(@PathVariable("id") String id) {
-        logger.info("Fetching & Deleting User with id {}", id);
-
-        User user = userService.findById(id);
-        if (user == null) {
-            logger.error("Unable to delete. User with id {} not found.", id);
-            return new ResponseEntity("Unable to delete. User with id " + id + " not found.",
-                    HttpStatus.NOT_FOUND);
-        }
-        userService.deleteUserById(id);
-        return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
-    }
-
-    // ------------------- Delete All Users-----------------------------
-
-    @RequestMapping(value = "/user/", method = RequestMethod.DELETE)
-    public ResponseEntity<User> deleteAllUsers() {
-        logger.info("Deleting All Users");
-
-        userService.deleteAllUsers();
-        return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
-    }
 
 }

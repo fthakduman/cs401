@@ -1,6 +1,6 @@
 package base.user.service;
 
-import base.user.model.User;
+import base.user.model.UserImpl;
 import base.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,33 +19,33 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User findById(String id) {
+    public UserImpl findById(String id) {
         return userRepository.findOne(id);
     }
 
     @Override
-    public User findUserByUserName(String username) {
-        return (User) userRepository.findUserByUsername(username);
+    public UserImpl findUserByUserName(String username) {
+        return (UserImpl) userRepository.findUserImplByUserName(username);
     }
 
     @Override
-    public User saveUser(User user) {
-        return userRepository.save(user);
+    public UserImpl saveUser(UserImpl userImpl) {
+        return userRepository.save(userImpl);
     }
 
     @Override
-    public User updateUser(User user) {
-        return userRepository.update(user);
+    public UserImpl updateUser(UserImpl userImpl) {
+        return userImpl;
     }
 
     @Override
     public void deleteUserById(String id) {
-        userRepository.deleteUserById(id);
+        userRepository.deleteUserImplById(id);
     }
 
     @Override
-    public List<User> findAllUsers() {
-        return (List<User>) userRepository.findAll();
+    public List<UserImpl> findAllUsers() {
+        return (List<UserImpl>) userRepository.findAll();
     }
 
     @Override
@@ -54,8 +54,8 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean isUserExist(User user) {
-        return userRepository.exists(user.getId());
+    public boolean isUserExist(UserImpl userImpl) {
+        return userRepository.exists(userImpl.getId());
     }
 
 

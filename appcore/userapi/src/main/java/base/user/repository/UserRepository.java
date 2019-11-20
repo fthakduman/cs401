@@ -1,23 +1,22 @@
 package base.user.repository;
 
-import base.user.model.User;
+import base.user.model.UserImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 import java.util.List;
 
-public interface UserRepository extends ElasticsearchRepository<User, String> {
+public interface UserRepository extends ElasticsearchRepository<UserImpl, String> {
 
-    Page<User> findUserById(String id, Pageable pageable);
+    Page<UserImpl> findUserImplById (String id, Pageable pageable);
 
-    List<User> findUserByUsername(String username);
+    List<UserImpl> findUserImplByUserName(String userName);
 
-    List<User> findUserByUserRole(String userRole);
+    List<UserImpl> findUserImplByUserRole(String userRole);
 
-    void deleteUserById(String id);
+    void deleteUserImplById(String id);
 
-    void deleteUserByUsername(String Username);
+    void deleteUserImplByUserName(String Username);
 
-    User update(User user);
 }

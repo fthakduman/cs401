@@ -1,25 +1,25 @@
 package base.user.service;
 
-import base.user.model.User;
+import base.user.model.UserImpl;
 
 import java.util.List;
 
 public interface UserService {
 
-    User findById(String id);
+    UserImpl findById(String id);
 
-    User findUserByUserName(String username);
+    UserImpl findUserByUserName(String username);
 
-    User saveUser(User user);
+    UserImpl saveUser(UserImpl userImpl);
 
-    User updateUser(User user);
+    UserImpl updateUser(UserImpl userImpl);
 
     void deleteUserById(String id);
 
-    List<User> findAllUsers();
+    List<UserImpl> findAllUsers();
 
     void deleteAllUsers();
 
-    boolean isUserExist(User user);
+    boolean isUserExist(UserImpl userImpl);
 
 }

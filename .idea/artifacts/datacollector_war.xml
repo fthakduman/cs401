@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="datacollector:war">
+    <output-path>$PROJECT_DIR$/appcore/datacollector/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>datacollector</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="datacollector-1.5.1.RELEASE.war">
+      <element id="artifact" artifact-name="datacollector:war exploded" />
+    </root>
+  </artifact>
+</component>
