@@ -1,9 +1,12 @@
 package base.collector.collectortask;
 
 import adaptedservices.AdaptedDNZService;
+import adaptedservices.AdaptedISBService;
 import adaptedservices.AdaptedYKBService;
 import base.collector.model.DNZRateImpl;
+import base.collector.model.ISBRateImpl;
 import base.collector.service.DNZRateImplServiceImpl;
+import base.collector.service.ISBRateImplServiceImpl;
 import base.collector.service.YKBRateImplServiceImpl;
 import base.collector.model.YKBRateImpl;
 import org.slf4j.Logger;
@@ -29,11 +32,16 @@ public class CurrencyCollectorTask {
     @Qualifier("dnzservice")
     private DNZRateImplServiceImpl dnzRateImplService;
 
+    @Autowired
+    @Qualifier("isbservice")
+    private ISBRateImplServiceImpl isbRateImplService;
+
     @Scheduled(cron = "0 * * * * ?")
     public void scheduleYKBDataCollector() {
         logger.info("Cron Task :: Execution Time - {}", dateTimeFormatter.format(LocalDateTime.now()));
         executeYKBCollector();
         executeDNZCollector();
+        executeISBCollector();
     }
 
     private void executeYKBCollector(){
@@ -64,6 +72,21 @@ public class CurrencyCollectorTask {
         dnzRate.setCurrencyHour(adapter.getRequestTime().getHour());
         dnzRate.setCurrencyMinute(adapter.getRequestTime().getMinute());
         dnzRateImplService.save(dnzRate);
+        adapter.refresh();
+    }
+    private void executeISBCollector(){
+        ISBRateImpl isbRate = new ISBRateImpl( "USD", "TL");
+        AdaptedISBService adapter = AdaptedISBService.getInstance( "USD", "TL");
+        adapter.makeRequest();
+        isbRate.setSellRate(adapter.getSellRate());
+        isbRate.setBuyRate(adapter.getBuyRate());
+        isbRate.setCurrencyYear(adapter.getRequestTime().getYear());
+        isbRate.setCurrencyMonth(adapter.getRequestTime().getMonth());
+        isbRate.setCurrencyMonthValue(adapter.getRequestTime().getMonthValue());
+        isbRate.setCurrencyDayOfWeek(adapter.getRequestTime().getDayOfWeek());
+        isbRate.setCurrencyHour(adapter.getRequestTime().getHour());
+        isbRate.setCurrencyMinute(adapter.getRequestTime().getMinute());
+        isbRateImplService.save(isbRate);
         adapter.refresh();
     }
 }

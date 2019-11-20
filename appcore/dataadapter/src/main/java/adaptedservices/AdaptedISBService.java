@@ -1,17 +1,18 @@
 package adaptedservices;
 
 import adapter.CurrencyDataAdapter;
-import bankservices.DNZService;
+import bankservices.ISBService;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.time.LocalDateTime;
 
-public class AdaptedDNZService implements CurrencyDataAdapter {
+public class AdaptedISBService implements CurrencyDataAdapter {
+    
+    private static volatile AdaptedISBService serviceInstance;
 
-    private static volatile AdaptedDNZService serviceInstance;
-
-    private static final String bankName = "DenizBank";
+    private static final String bankName = "ISBank";
+    
     LocalDateTime requestTime = null;
     String majorCurrency = null;
     String minorCurrency = null;
@@ -19,31 +20,30 @@ public class AdaptedDNZService implements CurrencyDataAdapter {
     double buyRate = 0;
     JSONObject serviceResponse;
 
-    private AdaptedDNZService(String majorCurrency,String minorCurrency) {
+    private AdaptedISBService(String majorCurrency,String minorCurrency) {
         this.majorCurrency = majorCurrency;
         this.minorCurrency = minorCurrency;
     }
-
+    
     @Override
     public void makeRequest() {
-        DNZService dnz = new DNZService();
-        dnz.makeRequest();
-        serviceResponse = dnz.getRequestResponse();
+        ISBService isb = new ISBService();
+        isb.makeRequest();
+        serviceResponse = isb.getRequestResponse();
         requestTime = LocalDateTime.now();
         parseResponse();
     }
-
     private void parseResponse(){
         if(serviceResponse == null){
             throw new NullPointerException("The bank base.collector.service response is null");
         }
         else{
-            JSONArray responseArray = ((JSONObject)  serviceResponse.get("Data")).getJSONArray("Rates");
+            JSONArray responseArray =  serviceResponse.getJSONArray("data");
             for(int i=0; i<responseArray.length(); i++){
                 JSONObject tmp = (JSONObject) responseArray.get(i);
-                if(tmp.get("CurrencyCode").equals(majorCurrency)){
-                    this.sellRate = (double) tmp.get("CashExchangeRate");
-                    this.buyRate = (double) tmp.get("CashChangeRate");
+                if(tmp.get("code").equals(majorCurrency)){
+                    this.sellRate = Double.valueOf((String) tmp.get("effective_rate_sell"));
+                    this.buyRate = Double.valueOf((String) tmp.get("effective_rate_buy"));
                 }
             }
 
@@ -57,6 +57,8 @@ public class AdaptedDNZService implements CurrencyDataAdapter {
         this.serviceResponse = null;
 
     }
+ 
+
 
     @Override
     public String getBankName() {
@@ -87,12 +89,12 @@ public class AdaptedDNZService implements CurrencyDataAdapter {
     public double getBuyRate() {
         return buyRate;
     }
-
-    public static AdaptedDNZService getInstance(String majorCurrency,String minorCurrency) {
+    public static AdaptedISBService getInstance(String majorCurrency,String minorCurrency) {
+        
         if(serviceInstance == null) {
-            synchronized (AdaptedDNZService.class) {
+            synchronized (AdaptedISBService.class) {
                 if(serviceInstance == null) {
-                    serviceInstance = new AdaptedDNZService(majorCurrency,minorCurrency);
+                    serviceInstance = new AdaptedISBService(majorCurrency,minorCurrency);
 
                 }
             }
