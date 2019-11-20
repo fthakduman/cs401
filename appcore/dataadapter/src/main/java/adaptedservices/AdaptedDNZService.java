@@ -38,12 +38,12 @@ public class AdaptedDNZService implements CurrencyDataAdapter {
             throw new NullPointerException("The bank base.collector.service response is null");
         }
         else{
-            JSONArray responseArray = ((JSONObject) serviceResponse.get("Data")).getJSONArray("Rates");
+            JSONArray responseArray = ((JSONObject)  serviceResponse.get("Data")).getJSONArray("Rates");
             for(int i=0; i<responseArray.length(); i++){
                 JSONObject tmp = (JSONObject) responseArray.get(i);
-                if(tmp.get("CurrencyRate").equals(majorCurrency)){
-                    this.sellRate = Double.valueOf((String) tmp.get("CashExchangeRate"));
-                    this.buyRate = Double.valueOf((String) tmp.get("CashChangeRate"));
+                if(tmp.get("CurrencyCode").equals(majorCurrency)){
+                    this.sellRate = (double) tmp.get("CashExchangeRate");
+                    this.buyRate = (double) tmp.get("CashChangeRate");
                 }
             }
 

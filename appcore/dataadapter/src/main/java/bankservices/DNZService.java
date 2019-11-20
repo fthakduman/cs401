@@ -64,7 +64,7 @@ public class DNZService {
 
             if (entity != null)
             {
-                requestResponse = new JSONObject(entity);
+                requestResponse = new JSONObject(EntityUtils.toString(entity));
             }
         }
         catch (Exception e)

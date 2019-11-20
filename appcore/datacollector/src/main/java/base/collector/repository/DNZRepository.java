@@ -12,12 +12,13 @@ public interface DNZRepository extends ElasticsearchRepository<DNZRateImpl, Stri
 
     Page<DNZRateImpl> findDNZRateImplByBankNameEquals(String bankName, Pageable pageable);
 
-    List<DNZRateImpl> findYDNZateImplByMajorCurrencyEquals(String majorCurrency);
+    List<DNZRateImpl> findYDNZRateImplByMajorCurrencyEquals(String majorCurrency);
 
-    List<DNZRateImpl> findYDNZateImplByMinorCurrencyEquals(String minorCUrrency);
+    List<DNZRateImpl> findYDNZRateImplByMinorCurrencyEquals(String minorCurrency);
+
+    List<DNZRateImpl> findDNZRateImplBySellRate(double sellRate);
 
     List<DNZRateImpl> findDNZRateImplBySellRateGreaterThan(double sellAmount);
 
-    List<DNZRateImpl> finddnzDNZRateImplBySellRateIsLessThan(double sellAmount);
 
 }

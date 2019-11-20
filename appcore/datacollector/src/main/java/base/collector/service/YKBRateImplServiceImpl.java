@@ -17,7 +17,7 @@ public class YKBRateImplServiceImpl implements YKBRateImplService {
     private YKBRepository ykbRepository;
 
 
-
+    @Autowired
     public void setYkbRepository(YKBRepository ykbRepository) {
         this.ykbRepository = ykbRepository;
     }
