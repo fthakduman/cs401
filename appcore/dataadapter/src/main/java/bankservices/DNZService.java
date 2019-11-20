@@ -31,7 +31,7 @@ public class DNZService {
             URI uri = builder.build();
             HttpPost request = new HttpPost(uri);
             request.setHeader("Content-Type", "application/json");
-            request.setHeader("Ocp-Apim-Subscription-Key", "{0b8050a7936c4c04a89d2f9cd620e3f9}");
+            request.setHeader("Ocp-Apim-Subscription-Key", "0b8050a7936c4c04a89d2f9cd620e3f9");
 
 
             // Request body
@@ -39,13 +39,12 @@ public class DNZService {
                     "\n" +
                     "    \"Header\": {\n" +
                     "\n" +
-                    "        \"AppKey\": \"qxP3JWuR5xMvuQ84\",\n" +
+                    "\t\"AppKey\": \"qxP3JWuR5xMvuQ84\",\n" +
+                    "\t\n" +
+                    "\t        \"Channel\": \"API\",\n" +
+                    "        \"ChannelSessionId\": \"\",  \n" +
                     "\n" +
-                    "        \"Channel\": \"API\",\n" +
-                    "\n" +
-                    "        \"ChannelSessionId\": \"test\",\n" +
-                    "\n" +
-                    "        \"ChannelRequestId\": \"test\" \n" +
+                    "        \"ChannelRequestId\": \"\" \n" +
                     "\n" +
                     "    },\n" +
                     "\n" +
@@ -55,7 +54,9 @@ public class DNZService {
                     "\n" +
                     "    ]\n" +
                     "\n" +
-                    "}");
+                    "}", "UTF-8");
+            reqEntity.setContentEncoding("UTF-8");
+            reqEntity.setContentType("application/json");
             request.setEntity(reqEntity);
 
             HttpResponse response = httpclient.execute(request);
@@ -63,7 +64,7 @@ public class DNZService {
 
             if (entity != null)
             {
-                requestResponse = new JSONObject(entity.toString());
+                requestResponse = new JSONObject(entity);
             }
         }
         catch (Exception e)
@@ -71,6 +72,7 @@ public class DNZService {
             System.out.println(e.getMessage());
         }
     }
+
 
     public JSONObject getRequestResponse() {
         return requestResponse;
