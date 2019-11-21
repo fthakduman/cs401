@@ -37,7 +37,7 @@ public class CurrencyCollectorTask {
     private ISBRateImplServiceImpl isbRateImplService;
 
     @Scheduled(cron = "0 * * * * ?")
-    public void scheduleYKBDataCollector() {
+    public void scheduleDataCollector() {
         logger.info("Cron Task :: Execution Time - {}", dateTimeFormatter.format(LocalDateTime.now()));
         executeYKBCollector();
         executeDNZCollector();
@@ -54,6 +54,7 @@ public class CurrencyCollectorTask {
         ykbRate.setCurrencyMonth(adapter.getRequestTime().getMonth());
         ykbRate.setCurrencyMonthValue(adapter.getRequestTime().getMonthValue());
         ykbRate.setCurrencyDayOfWeek(adapter.getRequestTime().getDayOfWeek());
+        ykbRate.setCurrencyDayOfMonthValue(adapter.getRequestTime().getMonthValue());
         ykbRate.setCurrencyHour(adapter.getRequestTime().getHour());
         ykbRate.setCurrencyMinute(adapter.getRequestTime().getMinute());
         ykbRateImplService.save(ykbRate);
@@ -69,6 +70,7 @@ public class CurrencyCollectorTask {
         dnzRate.setCurrencyMonth(adapter.getRequestTime().getMonth());
         dnzRate.setCurrencyMonthValue(adapter.getRequestTime().getMonthValue());
         dnzRate.setCurrencyDayOfWeek(adapter.getRequestTime().getDayOfWeek());
+        dnzRate.setCurrencyDayOfMonthValue(adapter.getRequestTime().getMonthValue());
         dnzRate.setCurrencyHour(adapter.getRequestTime().getHour());
         dnzRate.setCurrencyMinute(adapter.getRequestTime().getMinute());
         dnzRateImplService.save(dnzRate);
@@ -84,6 +86,7 @@ public class CurrencyCollectorTask {
         isbRate.setCurrencyMonth(adapter.getRequestTime().getMonth());
         isbRate.setCurrencyMonthValue(adapter.getRequestTime().getMonthValue());
         isbRate.setCurrencyDayOfWeek(adapter.getRequestTime().getDayOfWeek());
+        isbRate.setCurrencyDayOfMonthValue(adapter.getRequestTime().getMonthValue());
         isbRate.setCurrencyHour(adapter.getRequestTime().getHour());
         isbRate.setCurrencyMinute(adapter.getRequestTime().getMinute());
         isbRateImplService.save(isbRate);

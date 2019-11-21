@@ -75,7 +75,7 @@ public class DNZRateImpl implements DNZRate {
     }
 
     @Override
-    public void setCurrencyMonthValue(int curerncyMonthValue) {
+    public void setCurrencyMonthValue(int currencyMonthValue) {
         this.currencyMonthValue = currencyMonthValue;
     }
 

@@ -18,4 +18,5 @@ public interface ISBRepository  extends ElasticsearchRepository<ISBRateImpl, Str
     List<ISBRateImpl> findISBRateImplBySellRate(double sellRate);
 
     List<ISBRateImpl> findISBRateImplByBuyRate(double buyRate);
+
 }

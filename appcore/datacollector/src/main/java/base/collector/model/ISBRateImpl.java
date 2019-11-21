@@ -75,7 +75,7 @@ public class ISBRateImpl implements ISBRate{
     }
 
     @Override
-    public void setCurrencyMonthValue(int curerncyMonthValue) {
+    public void setCurrencyMonthValue(int currencyMonthValue) {
         this.currencyMonthValue = currencyMonthValue;
     }
 

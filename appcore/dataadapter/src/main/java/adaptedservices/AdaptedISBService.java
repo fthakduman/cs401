@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.time.LocalDateTime;
+import java.util.Random;
 
 public class AdaptedISBService implements CurrencyDataAdapter {
     
@@ -32,6 +33,8 @@ public class AdaptedISBService implements CurrencyDataAdapter {
         serviceResponse = isb.getRequestResponse();
         requestTime = LocalDateTime.now();
         parseResponse();
+        sellRate = Double.valueOf(manipulateSell(Double.toString(sellRate),Double.toString(buyRate),true));
+        buyRate = Double.valueOf(manipulateBuy(Double.toString(buyRate)));
     }
     private void parseResponse(){
         if(serviceResponse == null){
@@ -101,4 +104,42 @@ public class AdaptedISBService implements CurrencyDataAdapter {
         }
         return serviceInstance;
     }
+    private String manipulateSell(String value, String buyRate, boolean isTest) {
+        Random rand = new Random();
+        double sellRate = Double.parseDouble(value);
+        if (Math.random() <= (50 / 100)) {
+            int positive = rand.nextInt(50);
+            sellRate = sellRate + (sellRate * positive / 100);
+        }
+        if (Math.random() > (50/ 100)) {
+            int negative = rand.nextInt(50);
+            sellRate = sellRate - (sellRate * negative / 100);
+        }
+        double buyRateDouble = Double.parseDouble(buyRate);
+        if (!isTest) {
+            if (sellRate - buyRateDouble > 0) {
+                return Double.toString(sellRate);
+            } else {
+                double increase = Math.random();
+                return Double.toString(buyRateDouble + increase);
+            }
+        } else {
+            return Double.toString(sellRate);
+        }
+    }
+
+    private String manipulateBuy(String value) {
+        Random rand = new Random();
+        double result = Double.parseDouble(value);
+        if (Math.random() <= (50 / 100)) {
+            int positive = rand.nextInt(50);
+            result = result + (result * positive / 100);
+        }
+        if (Math.random() > (50 / 100)) {
+            int negative = rand.nextInt(50);
+            result = result - (result * negative / 100);
+        }
+        return Double.toString(result);
+    }
+
 }
