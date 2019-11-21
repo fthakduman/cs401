@@ -7,17 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="dataadapter" />
-        <module name="userapi" />
         <module name="datacollector" />
+        <module name="userapi" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="appcore" target="1.8" />
-      <module name="Composite" target="${maven.target.source}" />
-      <module name="dataadapter" target="1.8" />
-      <module name="datacollector" target="1.8" />
-      <module name="Mock" target="${maven.target.source}" />
-      <module name="userapi" target="1.8" />
+      <module name="userservice" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
