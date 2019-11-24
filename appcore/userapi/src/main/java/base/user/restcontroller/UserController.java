@@ -56,8 +56,12 @@ public class UserController {
         return userService.updateUserRole(id,userRecord);
     }
     @DeleteMapping("/user/{id}")
-    public void deleteUser(@PathVariable String id) {
-        userService.deleteUserById(id);
+    public String deleteUser(@PathVariable String id) {
+         userService.deleteUserById(id);
+         if(userService.findById(id) == null){
+             return "deleted";
+         }
+         return "delete operation failed";
     }
     @GetMapping("/user/{id}")
     public ResponseEntity<UserImpl> getUserById(@PathVariable String id) {

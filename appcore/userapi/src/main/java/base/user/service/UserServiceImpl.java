@@ -7,7 +7,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -63,7 +62,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void deleteUserById(String id) {
-        userRepository.deleteUserImplById(id);
+        userRepository.delete(id);
     }
 
     @Override

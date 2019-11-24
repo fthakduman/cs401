@@ -15,7 +15,7 @@ public interface UserRepository extends ElasticsearchRepository<UserImpl, String
 
     List<UserImpl> findUserImplByUserRole(String userRole);
 
-    void deleteUserImplById(String id);
+    void deleteUserImplByIdEquals(String id);
 
     void deleteUserImplByUserName(String Username);
 
