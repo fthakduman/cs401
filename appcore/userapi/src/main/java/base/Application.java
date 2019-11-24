@@ -5,9 +5,11 @@ import org.elasticsearch.client.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
@@ -15,7 +17,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.Map;
 
-@SpringBootApplication()
+@SpringBootApplication
 public class Application  extends SpringBootServletInitializer implements CommandLineRunner{
 
     @Autowired

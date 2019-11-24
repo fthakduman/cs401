@@ -3,8 +3,11 @@ package base.user.service;
 import base.user.model.UserImpl;
 import base.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -24,18 +27,38 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserImpl findUserByUserName(String username) {
-        return (UserImpl) userRepository.findUserImplByUserName(username);
+    public  List<UserImpl>findUserByUserName(String username) {
+        return userRepository.findUserImplByUserName(username);
     }
 
     @Override
     public UserImpl saveUser(UserImpl userImpl) {
+        userImpl.setPassword(new BCryptPasswordEncoder().encode(userImpl.getPassword()));
         return userRepository.save(userImpl);
     }
 
+
+
     @Override
-    public UserImpl updateUser(UserImpl userImpl) {
-        return userImpl;
+    public UserImpl updateUser(String id, UserImpl userImpl) {
+        UserImpl userInfo = userRepository.findOne(id);
+        userInfo.setUserName(userImpl.getUserName());
+        userInfo.setPassword(userImpl.getPassword());
+        userInfo.setUserRole(userImpl.getUserRole());
+        return saveUser(userInfo);
+    }
+    @Override
+    public UserImpl updateUserPassword(String id, UserImpl userImpl) {
+        UserImpl userInfo = userRepository.findOne(id);
+        userInfo.setPassword(userImpl.getPassword());
+        return saveUser(userInfo);
+    }
+
+    @Override
+    public UserImpl updateUserRole(String id, UserImpl userRecord) {
+        UserImpl userInfo = userRepository.findOne(id);
+        userInfo.setUserRole(userRecord.getUserRole());
+        return saveUser(userInfo);
     }
 
     @Override
@@ -45,7 +68,10 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public List<UserImpl> findAllUsers() {
-        return (List<UserImpl>) userRepository.findAll();
+        List<UserImpl> result = new ArrayList<UserImpl>();
+       userRepository.findAll().forEach(item ->
+              result.add(item) );
+       return result;
     }
 
     @Override
