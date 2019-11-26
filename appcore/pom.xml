@@ -18,6 +18,7 @@
         <module>datacollector</module>
         <module>dataadapter</module>
         <module>userapi</module>
+        <module>dataprovider</module>
     </modules>
 
     <name>appcore</name>

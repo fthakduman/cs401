@@ -15,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityExistsException;
+
 @RestController
 @RequestMapping("/api")
 public class UserController {
@@ -27,8 +29,6 @@ public class UserController {
     // -------------------Retrieve All Users---------------------------------------------
 
 
-
-
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public ResponseEntity<List<UserImpl>> listAllUsers() {
         List<UserImpl> userImpls = userService.findAllUsers();
@@ -38,31 +38,38 @@ public class UserController {
         }
         return new ResponseEntity<List<UserImpl>>(userImpls, HttpStatus.OK);
     }
+
     @PostMapping("/registeruser")
     public UserImpl addUser(@RequestBody UserImpl userRecord) {
+
         return userService.saveUser(userRecord);
+
     }
 
     @PutMapping("/user/{id}")
     public UserImpl updateUser(@RequestBody UserImpl userRecord, @PathVariable String id) {
-        return userService.updateUser(id,userRecord);
+        return userService.updateUser(id, userRecord);
     }
+
     @PutMapping("/user/resetpassword/{id}")
     public UserImpl updateUserPassword(@RequestBody UserImpl userRecord, @PathVariable String id) {
-        return userService.updateUserPassword(id,userRecord);
+        return userService.updateUserPassword(id, userRecord);
     }
+
     @PutMapping("/user/changeRole/{id}")
     public UserImpl updateUserRole(@RequestBody UserImpl userRecord, @PathVariable String id) {
-        return userService.updateUserRole(id,userRecord);
+        return userService.updateUserRole(id, userRecord);
     }
+
     @DeleteMapping("/user/{id}")
     public String deleteUser(@PathVariable String id) {
-         userService.deleteUserById(id);
-         if(userService.findById(id) == null){
-             return "deleted";
-         }
-         return "delete operation failed";
+        userService.deleteUserById(id);
+        if (userService.findById(id) == null) {
+            return "deleted";
+        }
+        return "delete operation failed";
     }
+
     @GetMapping("/user/{id}")
     public ResponseEntity<UserImpl> getUserById(@PathVariable String id) {
         UserImpl userInfo = userService.findById(id);

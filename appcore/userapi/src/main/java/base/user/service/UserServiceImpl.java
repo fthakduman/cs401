@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,9 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
@@ -31,9 +35,15 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserImpl saveUser(UserImpl userImpl) {
-        userImpl.setPassword(new BCryptPasswordEncoder().encode(userImpl.getPassword()));
-        return userRepository.save(userImpl);
+    public UserImpl saveUser(UserImpl userImpl) throws EntityExistsException {
+        userImpl.setPassword(bCryptPasswordEncoder.encode(userImpl.getPassword()));
+        if(!userRepository.findUserImplByUserName(userImpl.getUserName()).isEmpty()){
+            throw new EntityExistsException("User exists with the user name");
+        }
+        else{
+            return userRepository.save(userImpl);
+        }
+
     }
 
 

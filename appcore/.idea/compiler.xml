@@ -9,6 +9,7 @@
         <module name="dataadapter" />
         <module name="datacollector" />
         <module name="userapi" />
+        <module name="dataprovider" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
