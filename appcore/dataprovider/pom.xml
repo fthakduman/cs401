@@ -10,16 +10,19 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dataprovider</artifactId>
+    <groupId>com.ozu.exchangerates</groupId>
+    <name>DATAPROVIDER</name>
     <packaging>jar</packaging>
     <properties>
         <java.version>1.8</java.version>
     </properties>
 
     <dependencies>
+
         <dependency>
             <groupId>com.ozu.exchangerates</groupId>
             <artifactId>datacollector</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.5.1.RELEASE</version>
             <type>jar</type>
         </dependency>
         <dependency>
@@ -73,16 +76,24 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
 
         <!-- Runtime, for Embedded Elasticsearch,
           comment this if connect to external elastic search server-->
-        <dependency>
-            <groupId>net.java.dev.jna</groupId>
-            <artifactId>jna</artifactId>
-            <scope>runtime</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>net.java.dev.jna</groupId>-->
+<!--            <artifactId>jna</artifactId>-->
+<!--            <scope>runtime</scope>-->
+<!--        </dependency>-->
+
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
@@ -92,25 +103,14 @@
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-core</artifactId>
-            <scope>provided</scope>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
             <version>2.2.3</version>
         </dependency>
-        <dependency>
-            <groupId>com.ozu.exchangerates</groupId>
-            <artifactId>datacollector</artifactId>
-            <version>1.5.1.RELEASE</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.ozu.exchangerates</groupId>
-            <artifactId>datacollector</artifactId>
-            <version>1.5.1.RELEASE</version>
-            <scope>compile</scope>
-        </dependency>
+
 
     </dependencies>
 
@@ -120,6 +120,16 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>exec</classifier>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

@@ -22,6 +22,12 @@
             <version>1.0-SNAPSHOT</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>com.ozu.exchangerates</groupId>
+            <artifactId>datacollector</artifactId>
+            <version>1.5.1.RELEASE</version>
+            <type>jar</type>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -79,11 +85,13 @@
 
         <!-- Runtime, for Embedded Elasticsearch,
           comment this if connect to external elastic search server-->
-        <dependency>
-            <groupId>net.java.dev.jna</groupId>
-            <artifactId>jna</artifactId>
-            <scope>runtime</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>net.java.dev.jna</groupId>-->
+<!--            <artifactId>jna</artifactId>-->
+<!--            <scope>runtime</scope>-->
+<!--        </dependency>-->
+
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>

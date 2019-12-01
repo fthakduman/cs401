@@ -38,7 +38,7 @@ public class AdaptedISBService implements CurrencyDataAdapter {
     }
     private void parseResponse(){
         if(serviceResponse == null){
-            throw new NullPointerException("The bank base.collector.service response is null");
+            throw new NullPointerException("The bank collector.collector.service response is null");
         }
         else{
             JSONArray responseArray =  serviceResponse.getJSONArray("data");
