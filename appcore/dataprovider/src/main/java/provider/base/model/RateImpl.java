@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import java.time.Month;
 import java.util.*;
 
+import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 
 @Component
@@ -45,9 +46,7 @@ public class RateImpl implements Rate {
     public List<YKBRateImpl> getYKBRates(int year, Month month) {
         List<YKBRateImpl> result = new ArrayList<YKBRateImpl>();
         QueryBuilder query = QueryBuilders.boolQuery()
-                .must(termQuery("currencyYear", year))
-                .must(termQuery("currencyMonth", month.name()));
-
+                .must(matchQuery("currencyYear", year));
         NativeSearchQuery build = new NativeSearchQueryBuilder()
                 .withQuery(query)
                 .withIndices("rates")
@@ -262,5 +261,16 @@ public class RateImpl implements Rate {
     }
 
 
+//    {
+//        "query": {
+//        "bool": {
+//            "must":
+//      [
+//            { "match": { "currencyYear": 2019 }},
+//            { "match": { "currencyMonth": "DECEMBER" }}
+//          ]
+//        }
+//    }
+//    }
 
 }
