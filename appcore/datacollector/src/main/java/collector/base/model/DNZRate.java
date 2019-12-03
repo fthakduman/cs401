@@ -38,7 +38,7 @@ public interface DNZRate {
 
     public Month getCurrencyMonth();
 
-    public int getCurrencyDayofMonthValue();
+    public int getCurrencyDayOfMonthValue();
 
     public DayOfWeek getCurrencyDayOfWeek();
 

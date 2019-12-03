@@ -4,11 +4,11 @@ package provider.base.model;
 import collector.base.model.DNZRateImpl;
 import collector.base.model.ISBRateImpl;
 import collector.base.model.YKBRateImpl;
+import collector.base.repository.DNZRepository;
 import collector.base.repository.YKBRepository;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
@@ -31,6 +31,9 @@ public class RateImpl implements Rate {
     @Autowired
     YKBRepository ykbRepositor;
 
+    @Autowired
+    DNZRepository dnzRepository;
+
     public List<YKBRateImpl> getYKBRates(int year) {
         List<YKBRateImpl> result = new ArrayList<YKBRateImpl>();
         QueryBuilder query = QueryBuilders.boolQuery()
@@ -50,18 +53,16 @@ public class RateImpl implements Rate {
     public List<YKBRateImpl> getYKBRates(int year, Month month) {
         List<YKBRateImpl> result = new ArrayList<YKBRateImpl>();
         QueryBuilder query = QueryBuilders.boolQuery()
-                .must(matchQuery("currencyYear", year));
+                .must(matchQuery("currencyMonth", month.name()));
+
         NativeSearchQuery build = new NativeSearchQueryBuilder()
                 .withQuery(query)
-                .withIndices("rates")
                 .withTypes("ykb")
                 .build();
-
         PageRequest pq = new PageRequest(0, 1000);
+        Page<YKBRateImpl> ykbRates = ykbRepositor.findYKBRateImplByCurrencyYearEqualsAndCurrencyMonthEqualsAndCurrencyDayOfMonthValueEqualsAndCurrencyHourEquals(2019, month,3,23,pq);
 
-        Page<YKBRateImpl> page = ykbRepositor.findYKBRateImplByBankNameEquals("YapıKrediBank",pq);
-
-        return page.getContent();
+        return ykbRates.getContent();
 
     }
     public List<YKBRateImpl> getYKBRates(int year, Month month,int currencyDayofMonthValue) {

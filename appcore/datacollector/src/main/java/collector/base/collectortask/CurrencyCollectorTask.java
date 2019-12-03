@@ -54,9 +54,9 @@ public class CurrencyCollectorTask {
         ykbRate.setCurrencyMonth(adapter.getRequestTime().getMonth());
         ykbRate.setCurrencyMonthValue(adapter.getRequestTime().getMonthValue());
         ykbRate.setCurrencyDayOfWeek(adapter.getRequestTime().getDayOfWeek());
-        ykbRate.setCurrencyDayOfMonthValue(adapter.getRequestTime().getMonthValue());
+        ykbRate.setCurrencyDayOfMonthValue(adapter.getRequestTime().getDayOfMonth());
         ykbRate.setCurrencyHour(adapter.getRequestTime().getHour());
-        ykbRate.setMinute(adapter.getRequestTime().getMinute());
+        ykbRate.setCurrencyMinute(adapter.getRequestTime().getMinute());
         ykbRateImplService.save(ykbRate);
         adapter.refresh();
     }
@@ -70,7 +70,7 @@ public class CurrencyCollectorTask {
         dnzRate.setCurrencyMonth(adapter.getRequestTime().getMonth());
         dnzRate.setCurrencyMonthValue(adapter.getRequestTime().getMonthValue());
         dnzRate.setCurrencyDayOfWeek(adapter.getRequestTime().getDayOfWeek());
-        dnzRate.setCurrencyDayOfMonthValue(adapter.getRequestTime().getMonthValue());
+        dnzRate.setCurrencyDayOfMonthValue(adapter.getRequestTime().getDayOfMonth());
         dnzRate.setCurrencyHour(adapter.getRequestTime().getHour());
         dnzRate.setCurrencyMinute(adapter.getRequestTime().getMinute());
         dnzRateImplService.save(dnzRate);
@@ -86,7 +86,7 @@ public class CurrencyCollectorTask {
         isbRate.setCurrencyMonth(adapter.getRequestTime().getMonth());
         isbRate.setCurrencyMonthValue(adapter.getRequestTime().getMonthValue());
         isbRate.setCurrencyDayOfWeek(adapter.getRequestTime().getDayOfWeek());
-        isbRate.setCurrencyDayOfMonthValue(adapter.getRequestTime().getMonthValue());
+        isbRate.setCurrencyDayOfMonthValue(adapter.getRequestTime().getDayOfMonth());
         isbRate.setCurrencyHour(adapter.getRequestTime().getHour());
         isbRate.setCurrencyMinute(adapter.getRequestTime().getMinute());
         isbRateImplService.save(isbRate);

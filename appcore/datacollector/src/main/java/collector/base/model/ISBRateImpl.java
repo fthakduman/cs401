@@ -28,6 +28,26 @@ public class ISBRateImpl implements ISBRate{
         this.majorCurrency = majorCurrency;
         this.minorCurrency = minorCurrency;
     }
+    public void setCurrencyYear(int currencyYear) {
+        this.currencyYear = currencyYear;
+    }
+
+    public void setCurrencyMonth(Month currencyMonth) {
+        this.currencyMonth = currencyMonth;
+    }
+
+    @Override
+    public Month getCurrencyMonth() {
+        return currencyMonth;
+    }
+
+    public void setSellRate(double sellRate) {
+        this.sellRate = sellRate;
+    }
+
+    public void setBuyRate(double buyRate) {
+        this.buyRate = buyRate;
+    }
 
     @Override
     public String getBankName() {
@@ -54,47 +74,22 @@ public class ISBRateImpl implements ISBRate{
         return buyRate;
     }
 
-    @Override
-    public void setSellRate(double sellRate) {
-        this.sellRate = sellRate;
-    }
-
-    @Override
-    public void setBuyRate(double buyRate) {
-        this.buyRate = buyRate;
-    }
-
-    @Override
-    public void setCurrencyYear( int currencyYear) {
-        this.currencyYear = currencyYear;
-    }
-
-    @Override
-    public void setCurrencyMonth(Month currencyMonth) {
-        this.currencyMonth = currencyMonth;
-    }
-
-    @Override
     public void setCurrencyMonthValue(int currencyMonthValue) {
         this.currencyMonthValue = currencyMonthValue;
     }
 
-    @Override
     public void setCurrencyDayOfMonthValue(int currencyDayOfMonthValue) {
         this.currencyDayOfMonthValue = currencyDayOfMonthValue;
     }
 
-    @Override
     public void setCurrencyHour(int currencyHour) {
         this.currencyHour = currencyHour;
     }
 
-    @Override
     public void setCurrencyMinute(int currencyMinute) {
         this.currencyMinute = currencyMinute;
     }
 
-    @Override
     public void setCurrencyDayOfWeek(DayOfWeek currencyDayOfWeek) {
         this.currencyDayOfWeek = currencyDayOfWeek;
     }
@@ -110,12 +105,7 @@ public class ISBRateImpl implements ISBRate{
     }
 
     @Override
-    public Month getCurrencyMonth() {
-        return currencyMonth;
-    }
-
-    @Override
-    public int getCurrencyDayofMonthValue() {
+    public int getCurrencyDayOfMonthValue() {
         return currencyDayOfMonthValue;
     }
 

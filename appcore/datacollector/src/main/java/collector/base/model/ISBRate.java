@@ -38,7 +38,7 @@ public interface ISBRate {
 
     public Month getCurrencyMonth();
 
-    public int getCurrencyDayofMonthValue();
+    public int getCurrencyDayOfMonthValue();
 
     public DayOfWeek getCurrencyDayOfWeek();
 

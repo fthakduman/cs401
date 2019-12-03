@@ -43,7 +43,7 @@ public class YKBRateImpl implements YKBRate {
 
     @Override
     public Month getCurrencyMonth() {
-        return null;
+        return currencyMonth;
     }
 
     public void setSellRate(double sellRate) {
@@ -91,8 +91,8 @@ public class YKBRateImpl implements YKBRate {
         this.currencyHour = currencyHour;
     }
 
-    public void setMinute(int minute) {
-        this.currencyMinute = minute;
+    public void setCurrencyMinute(int currencyMinute) {
+        this.currencyMinute = currencyMinute;
     }
 
     public void setCurrencyDayOfWeek(DayOfWeek currencyDayOfWeek) {
@@ -106,11 +106,11 @@ public class YKBRateImpl implements YKBRate {
 
     @Override
     public int getCurrencyMonthValue() {
-        return currencyDayOfMonthValue;
+        return currencyMonthValue;
     }
 
     @Override
-    public int getCurrencyDayofMonthValue() {
+    public int getCurrencyDayOfMonthValue() {
         return currencyDayOfMonthValue;
     }
 
@@ -125,7 +125,7 @@ public class YKBRateImpl implements YKBRate {
     }
 
     @Override
-    public int getMinute() {
+    public int getCurrencyMinute() {
         return currencyMinute;
     }
 

@@ -21,13 +21,13 @@ public interface YKBRate {
 
     public Month getCurrencyMonth();
 
-    public int getCurrencyDayofMonthValue();
+    public int getCurrencyDayOfMonthValue();
 
     public DayOfWeek getCurrencyDayOfWeek();
 
     public int getCurrencyHour();
 
-    public int getMinute();
+    public int getCurrencyMinute();
 
 
 }
