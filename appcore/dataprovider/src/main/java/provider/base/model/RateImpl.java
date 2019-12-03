@@ -4,10 +4,13 @@ package provider.base.model;
 import collector.base.model.DNZRateImpl;
 import collector.base.model.ISBRateImpl;
 import collector.base.model.YKBRateImpl;
+import collector.base.repository.YKBRepository;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
@@ -25,6 +28,9 @@ public class RateImpl implements Rate {
     @Autowired
     ElasticsearchTemplate elasticsearchTemplate;
 
+    @Autowired
+    YKBRepository ykbRepositor;
+
     public List<YKBRateImpl> getYKBRates(int year) {
         List<YKBRateImpl> result = new ArrayList<YKBRateImpl>();
         QueryBuilder query = QueryBuilders.boolQuery()
@@ -36,10 +42,8 @@ public class RateImpl implements Rate {
                 .withTypes("ykb")
                 .build();
 
-        Iterator<YKBRateImpl> ykbRates = elasticsearchTemplate.stream(build, YKBRateImpl.class);
-        while(ykbRates.hasNext()){
-            result.add(ykbRates.next());
-        }
+
+
         return result;
 
     }
@@ -53,11 +57,11 @@ public class RateImpl implements Rate {
                 .withTypes("ykb")
                 .build();
 
-        Iterator<YKBRateImpl> ykbRates = elasticsearchTemplate.stream(build, YKBRateImpl.class);
-        while(ykbRates.hasNext()){
-            result.add(ykbRates.next());
-        }
-        return result;
+        PageRequest pq = new PageRequest(0, 1000);
+
+        Page<YKBRateImpl> page = ykbRepositor.findYKBRateImplByBankNameEquals("YapıKrediBank",pq);
+
+        return page.getContent();
 
     }
     public List<YKBRateImpl> getYKBRates(int year, Month month,int currencyDayofMonthValue) {
