@@ -14,8 +14,5 @@ public final class CommonUtils {
 
     public static final Integer RATE_SIZE_WEEKLY = 7 * RATE_SIZE_DAILY;
 
-
-
-
     private CommonUtils() {}
 }
