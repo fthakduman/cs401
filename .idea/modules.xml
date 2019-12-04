@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/appcore/appcore.iml" filepath="$PROJECT_DIR$/appcore/appcore.iml" />
       <module fileurl="file://$PROJECT_DIR$/appcore/dataadapter/dataadapter.iml" filepath="$PROJECT_DIR$/appcore/dataadapter/dataadapter.iml" />
       <module fileurl="file://$PROJECT_DIR$/appcore/datacollector/datacollector.iml" filepath="$PROJECT_DIR$/appcore/datacollector/datacollector.iml" />
+      <module fileurl="file://$PROJECT_DIR$/appcore/dataprovider/dataprovider.iml" filepath="$PROJECT_DIR$/appcore/dataprovider/dataprovider.iml" />
       <module fileurl="file://$PROJECT_DIR$/appcore/userapi/userapi.iml" filepath="$PROJECT_DIR$/appcore/userapi/userapi.iml" />
     </modules>
   </component>

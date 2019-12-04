@@ -1,6 +1,7 @@
 package collector;
 
 import collector.base.service.DNZRateImplServiceImpl;
+import collector.base.service.YKBRateImplService;
 import org.elasticsearch.client.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -24,11 +25,6 @@ public class Application  extends SpringBootServletInitializer implements Comman
     @Autowired
     private ElasticsearchOperations es;
 
-    @Autowired
-    private YKBRateImplServiceImpl ykbRateImplService;
-
-    @Autowired
-    private DNZRateImplServiceImpl dnzRateImplService;
 
     public static void main(String args[]) {
         SpringApplication.run(Application.class, args);
@@ -38,12 +34,6 @@ public class Application  extends SpringBootServletInitializer implements Comman
     public void run(String... args) throws Exception {
 
         printElasticSearchInfo();
-        Page<YKBRateImpl> rates = ykbRateImplService.findYKBRateImplByBankNameEquals("YapıKrediBank", new PageRequest(0, 10));
-
-        //List<Book> books = ykbRateImplver
-        // Service.findByTitle("Elasticsearch Basics");
-
-        rates.forEach(x -> System.out.println(x));
 
     }
     @Override
