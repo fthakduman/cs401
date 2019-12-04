@@ -13,6 +13,10 @@ public interface UserRepository extends ElasticsearchRepository<UserImpl, String
 
     List<UserImpl> findUserImplByUserName(String userName);
 
+    List<UserImpl> findUserImplByUserNameAndPassword(String userName,String password);
+
+    List<UserImpl> findUserImplByUserNameExistsNameAndPasswordExists(String userName,String password);
+
     List<UserImpl> findUserImplByUserRole(String userRole);
 
     void deleteUserImplByIdEquals(String id);

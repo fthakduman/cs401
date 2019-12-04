@@ -5,16 +5,20 @@ import collector.base.model.DNZRateImpl;
 import collector.base.model.ISBRateImpl;
 import collector.base.model.YKBRateImpl;
 import collector.base.repository.DNZRepository;
-import collector.base.repository.YKBRepository;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Component;
+import provider.base.service.DNZWrap;
+import provider.base.service.ISBWrap;
+import provider.base.service.YKBWrap;
+import provider.base.util.CommonUtils;
 
 import java.time.Month;
 import java.util.*;
@@ -29,7 +33,16 @@ public class RateImpl implements Rate {
     ElasticsearchTemplate elasticsearchTemplate;
 
     @Autowired
-    YKBRepository ykbRepositor;
+    @Qualifier("ykbwrapper")
+    YKBWrap ykbWrap;
+
+    @Autowired
+    @Qualifier("dnzwrapper")
+    DNZWrap dnzWrap;
+
+    @Autowired
+    @Qualifier("isbwrapper")
+    ISBWrap isbWrap;
 
     @Autowired
     DNZRepository dnzRepository;
@@ -46,66 +59,49 @@ public class RateImpl implements Rate {
                 .build();
 
 
-
         return result;
 
     }
-    public List<YKBRateImpl> getYKBRates(int year, Month month) {
-        List<YKBRateImpl> result = new ArrayList<YKBRateImpl>();
-        QueryBuilder query = QueryBuilders.boolQuery()
-                .must(matchQuery("currencyMonth", month.name()));
 
-        NativeSearchQuery build = new NativeSearchQueryBuilder()
-                .withQuery(query)
-                .withTypes("ykb")
-                .build();
-        PageRequest pq = new PageRequest(0, 1000);
-        Page<YKBRateImpl> ykbRates = ykbRepositor.findYKBRateImplByCurrencyYearEqualsAndCurrencyMonthEqualsAndCurrencyDayOfMonthValueEqualsAndCurrencyHourEquals(2019, month,3,23,pq);
+    public Page<YKBRateImpl> getYKBRates(int year, Month month) {
+        PageRequest pq = new PageRequest(0, CommonUtils.RATE_SIZE_DAILY);
+        Page<YKBRateImpl> ykbRates = ykbWrap.findMonthly(year, month, pq);
 
-        return ykbRates.getContent();
+        return ykbRates;
 
     }
-    public List<YKBRateImpl> getYKBRates(int year, Month month,int currencyDayofMonthValue) {
-        List<YKBRateImpl> result = new ArrayList<YKBRateImpl>();
-        QueryBuilder query = QueryBuilders.boolQuery()
-                .must(termQuery("currencyYear", year))
-                .must(termQuery("currencyMonth", month.name()))
-                .must(termQuery("currencyDayofMonthValue", currencyDayofMonthValue));
 
-        NativeSearchQuery build = new NativeSearchQueryBuilder()
-                .withQuery(query)
-                .withTypes("ykb")
-                .build();
+    public Page<YKBRateImpl> getYKBRates(int year, Month month, int currencyDayofMonthValue) {
+        PageRequest pq = new PageRequest(0, CommonUtils.RATE_SIZE_DAILY);
+        Page<YKBRateImpl> ykbRates = ykbWrap.findDaily(year, month, currencyDayofMonthValue, pq);
 
-        Iterator<YKBRateImpl> ykbRates = elasticsearchTemplate.stream(build, YKBRateImpl.class);
-        while(ykbRates.hasNext()){
-            result.add(ykbRates.next());
-        }
-
-        return result;
+        return ykbRates;
 
     }
-    public List<YKBRateImpl> getYKBRates(int year, Month month,int currencyDayofMonthValue, int hour) {
-        List<YKBRateImpl> result = new ArrayList<YKBRateImpl>();
-        QueryBuilder query = QueryBuilders.boolQuery()
-                .must(termQuery("currencyYear", year))
-                .must(termQuery("currencyMonth", month.name()))
-                .must(termQuery("currencyDayofMonthValue", currencyDayofMonthValue))
-                .must(termQuery("hour", hour));
 
-        NativeSearchQuery build = new NativeSearchQueryBuilder()
-                .withQuery(query)
-                .withTypes("ykb")
-                .build();
+    public Page<YKBRateImpl> getYKBRates(int year, Month month, int currencyDayofMonthValue, int hour) {
+        PageRequest pq = new PageRequest(0, CommonUtils.RATE_SIZE_HOURLY);
+        Page<YKBRateImpl> ykbRates = ykbWrap.findHourly(year, month, currencyDayofMonthValue, hour, pq);
 
-        Iterator<YKBRateImpl> ykbRates = elasticsearchTemplate.stream(build, YKBRateImpl.class);
-        while(ykbRates.hasNext()){
-            result.add(ykbRates.next());
-        }
-
-        return result;
+        return ykbRates;
 
     }
+
+    public Page<YKBRateImpl> getYKBRatesHInterval(int year, Month month, int currencyDayofMonthValue, int begin, int end) {
+        PageRequest pq = new PageRequest(0, CommonUtils.RATE_SIZE_HOURLY);
+        Page<YKBRateImpl> ykbRates = ykbWrap.findHourlyInterval(year, month, currencyDayofMonthValue, begin,end, pq);
+
+        return ykbRates;
+
+    }
+    public Page<YKBRateImpl> getYKBRatesDInterval(int year, Month month, int begin, int end) {
+        PageRequest pq = new PageRequest(0, CommonUtils.RATE_SIZE_HOURLY);
+        Page<YKBRateImpl> ykbRates = ykbWrap.findDailyInterval(year, month, begin,end, pq);
+
+        return ykbRates;
+
+    }
+
     public List<DNZRateImpl> getDNZRates(int year) {
 
         List<DNZRateImpl> result = new ArrayList<DNZRateImpl>();
@@ -119,73 +115,48 @@ public class RateImpl implements Rate {
 
 
         Iterator<DNZRateImpl> dnzRateIterator = elasticsearchTemplate.stream(build, DNZRateImpl.class);
-        while(dnzRateIterator.hasNext()){
-            result.add(dnzRateIterator.next());
-        }
-
-        return result;
-    }
-    public List<DNZRateImpl> getDNZRates(int year, Month month) {
-        List<DNZRateImpl> result = new ArrayList<DNZRateImpl>();
-        QueryBuilder query = QueryBuilders.boolQuery()
-                .must(termQuery("currencyYear", year))
-                .must(termQuery("currencyMonth", month.name()));
-
-        NativeSearchQuery build = new NativeSearchQueryBuilder()
-                .withQuery(query)
-                .withTypes("dnz")
-                .build();
-
-        Iterator<DNZRateImpl> dnzRateIterator = elasticsearchTemplate.stream(build, DNZRateImpl.class);
-        while(dnzRateIterator.hasNext()){
+        while (dnzRateIterator.hasNext()) {
             result.add(dnzRateIterator.next());
         }
 
         return result;
     }
 
-    public List<DNZRateImpl> getDNZRates(int year, Month month ,int currencyDayofMonthValue) {
-        List<DNZRateImpl> result = new ArrayList<DNZRateImpl>();
-        QueryBuilder query = QueryBuilders.boolQuery()
-                .must(termQuery("currencyYear", year))
-                .must(termQuery("currencyMonth", month.name()))
-                .must(termQuery("currencyDayofMonthValue",currencyDayofMonthValue));
+    public Page<DNZRateImpl> getDNZRates(int year, Month month) {
+        PageRequest pq = new PageRequest(0, CommonUtils.RATE_SIZE_DAILY);
+        Page<DNZRateImpl> dnzRates = dnzWrap.findMonthly(year, month, pq);
 
-        NativeSearchQuery build = new NativeSearchQueryBuilder()
-                .withQuery(query)
-                .withTypes("dnz")
-                .build();
-
-
-        Iterator<DNZRateImpl> dnzRateIterator = elasticsearchTemplate.stream(build, DNZRateImpl.class);
-        while(dnzRateIterator.hasNext()){
-            result.add(dnzRateIterator.next());
-        }
-
-        return result;
-    }
-    public List<DNZRateImpl> getDNZRates(int year, Month month ,int currencyDayofMonthValue,int hour) {
-        List<DNZRateImpl> result = new ArrayList<DNZRateImpl>();
-        QueryBuilder query = QueryBuilders.boolQuery()
-                .must(termQuery("currencyYear", year))
-                .must(termQuery("currencyMonth", month.name()))
-                .must(termQuery("currencyDayofMonthValue",currencyDayofMonthValue))
-                .must(termQuery("hour",hour));
-
-
-        NativeSearchQuery build = new NativeSearchQueryBuilder()
-                .withQuery(query)
-                .withTypes("dnz")
-                .build();
-
-        Iterator<DNZRateImpl> dnzRateIterator = elasticsearchTemplate.stream(build, DNZRateImpl.class);
-        while(dnzRateIterator.hasNext()){
-            result.add(dnzRateIterator.next());
-        }
-
-        return result;
+        return dnzRates;
     }
 
+    public Page<DNZRateImpl> getDNZRates(int year, Month month, int currencyDayofMonthValue) {
+        PageRequest pq = new PageRequest(0, CommonUtils.RATE_SIZE_DAILY);
+        Page<DNZRateImpl> dnzRates = dnzWrap.findDaily(year, month, currencyDayofMonthValue, pq);
+
+        return dnzRates;
+    }
+
+    public Page<DNZRateImpl> getDNZRates(int year, Month month, int currencyDayofMonthValue, int hour) {
+        PageRequest pq = new PageRequest(0, CommonUtils.RATE_SIZE_HOURLY);
+        Page<DNZRateImpl> dnzRates = dnzWrap.findHourly(year, month, currencyDayofMonthValue, hour, pq);
+
+        return dnzRates;
+    }
+
+    public Page<DNZRateImpl> getDNZRatesHInterval(int year, Month month, int currencyDayofMonthValue, int begin, int end) {
+        PageRequest pq = new PageRequest(0, CommonUtils.RATE_SIZE_DAILY);
+        Page<DNZRateImpl> dnzRates = dnzWrap.findHourlyInterval(year, month, currencyDayofMonthValue, begin,end, pq);
+
+        return dnzRates;
+
+    }
+    public Page<DNZRateImpl> getDNZRatesDInterval(int year, Month month, int begin, int end) {
+        PageRequest pq = new PageRequest(0, CommonUtils.RATE_SIZE_DAILY);
+        Page<DNZRateImpl> dnzRates = dnzWrap.findDailyInterval(year, month, begin,end, pq);
+
+        return dnzRates;
+
+    }
 
     public List<ISBRateImpl> getISBRates(int year) {
 
@@ -199,72 +170,48 @@ public class RateImpl implements Rate {
                 .build();
 
         Iterator<ISBRateImpl> isbRateIterator = elasticsearchTemplate.stream(build, ISBRateImpl.class);
-        while(isbRateIterator.hasNext()){
+        while (isbRateIterator.hasNext()) {
             result.add(isbRateIterator.next());
         }
 
         return result;
     }
 
-    public List<ISBRateImpl> getISBRates(int year, Month month) {
-        List<ISBRateImpl> result = new ArrayList<ISBRateImpl>();
-        QueryBuilder query = QueryBuilders.boolQuery()
-                .must(termQuery("currencyYear", year))
-                .must(termQuery("currencyMonth", month.name()));
+    public Page<ISBRateImpl> getISBRates(int year, Month month) {
+        PageRequest pq = new PageRequest(0, CommonUtils.RATE_SIZE_DAILY);
+        Page<ISBRateImpl> isbRates = isbWrap.findMonthly(year, month, pq);
 
-        NativeSearchQuery build = new NativeSearchQueryBuilder()
-                .withQuery(query)
-                .withTypes("isb")
-                .build();
-
-        Iterator<ISBRateImpl> isbRateIterator = elasticsearchTemplate.stream(build, ISBRateImpl.class);
-        while(isbRateIterator.hasNext()){
-            result.add(isbRateIterator.next());
-        }
-
-        return result;
+        return isbRates;
     }
 
-    public List<ISBRateImpl> getISBRates(int year, Month month,int currencyDayofMonthValue) {
-        List<ISBRateImpl> result = new ArrayList<ISBRateImpl>();
-        QueryBuilder query = QueryBuilders.boolQuery()
-                .must(termQuery("currencyYear", year))
-                .must(termQuery("currencyMonth", month.name()))
-                .must(termQuery("currencyDayofMonthValue", currencyDayofMonthValue));
+    public Page<ISBRateImpl> getISBRates(int year, Month month, int currencyDayofMonthValue) {
+        PageRequest pq = new PageRequest(0, CommonUtils.RATE_SIZE_DAILY);
+        Page<ISBRateImpl> isbRates = isbWrap.findDaily(year, month, currencyDayofMonthValue, pq);
 
-        NativeSearchQuery build = new NativeSearchQueryBuilder()
-                .withQuery(query)
-                .withTypes("isb")
-                .build();
-
-        Iterator<ISBRateImpl> isbRateIterator = elasticsearchTemplate.stream(build, ISBRateImpl.class);
-        while(isbRateIterator.hasNext()){
-            result.add(isbRateIterator.next());
-        }
-
-        return result;
-    }
-    public List<ISBRateImpl> getISBRates(int year, Month month,int currencyDayofMonthValue, int hour) {
-        List<ISBRateImpl> result = new ArrayList<ISBRateImpl>();
-        QueryBuilder query = QueryBuilders.boolQuery()
-                .must(termQuery("currencyYear", year))
-                .must(termQuery("currencyMonth", month.name()))
-                .must(termQuery("currencyDayofMonthValue", currencyDayofMonthValue))
-                .must(termQuery("hour", hour));
-
-        NativeSearchQuery build = new NativeSearchQueryBuilder()
-                .withQuery(query)
-                .withTypes("isb")
-                .build();
-
-        Iterator<ISBRateImpl> isbRateIterator = elasticsearchTemplate.stream(build, ISBRateImpl.class);
-        while(isbRateIterator.hasNext()){
-            result.add(isbRateIterator.next());
-        }
-
-        return result;
+        return isbRates;
     }
 
+    public Page<ISBRateImpl> getISBRates(int year, Month month, int currencyDayofMonthValue, int hour) {
+        PageRequest pq = new PageRequest(0, CommonUtils.RATE_SIZE_HOURLY);
+        Page<ISBRateImpl> isbRates = isbWrap.findHourly(year, month, currencyDayofMonthValue, hour, pq);
+
+        return isbRates;
+    }
+
+    public Page<ISBRateImpl> getISBRatesHInterval(int year, Month month, int currencyDayofMonthValue, int begin, int end) {
+        PageRequest pq = new PageRequest(0, CommonUtils.RATE_SIZE_DAILY);
+        Page<ISBRateImpl> isbRates = isbWrap.findHourlyInterval(year, month, currencyDayofMonthValue, begin,end, pq);
+
+        return isbRates;
+
+    }
+    public Page<ISBRateImpl> getISBRatesDInterval(int year, Month month, int begin, int end) {
+        PageRequest pq = new PageRequest(0, CommonUtils.RATE_SIZE_DAILY);
+        Page<ISBRateImpl> isbRates = isbWrap.findDailyInterval(year, month, begin,end, pq);
+
+        return isbRates;
+
+    }
 
 //    {
 //        "query": {

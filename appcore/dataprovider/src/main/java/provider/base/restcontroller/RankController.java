@@ -14,7 +14,7 @@ import java.util.List;
 @SuppressWarnings("unchecked")
 @RestController
 @RequestMapping("/api/v1")
-public class RateController {
+public class RankController {
 
 
 
@@ -24,7 +24,7 @@ public class RateController {
     // -------------------Retrieve All Users---------------------------------------------
 
 
-    @RequestMapping(value = "/rate", method = RequestMethod.GET)
+    @RequestMapping(value = "/rank", method = RequestMethod.GET)
     public ResponseEntity<List<YKBRateImpl>> listAllUsers() {
         List<YKBRateImpl> userImpls = rate.getYKBRates(2019);
         if (userImpls.isEmpty()) {
@@ -34,7 +34,7 @@ public class RateController {
         return new ResponseEntity<List<YKBRateImpl>>(userImpls, HttpStatus.OK);
     }
 
-    @GetMapping("/rate/{month}")
+    @GetMapping("/rank/{month}")
     public ResponseEntity<List<YKBRateImpl>> getByMonth( @PathVariable String month) {
         Month q=null;
      for(Month m: Month.values()){
@@ -42,7 +42,7 @@ public class RateController {
              q=m;
          }
         }
-        List<YKBRateImpl> userImpls = rate.getYKBRates(2019,q);
+        List<YKBRateImpl> userImpls = rate.getYKBRates(2019,q).getContent();
         if (userImpls.isEmpty()) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
             // You many decide to return HttpStatus.NOT_FOUND
