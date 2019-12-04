@@ -13,6 +13,7 @@ import collector.base.model.YKBRateImpl;
 import java.time.Month;
 
 @Service
+@Qualifier("ykbservice")
 public class YKBRateImplServiceImpl implements YKBRateImplService {
 
     @Autowired
