@@ -8,7 +8,8 @@ public class RankRequest {
 
     private String password;
 
-    private List<String> banks;
+    private String bankName;
+
 
 
     public RankRequest() {
@@ -31,11 +32,11 @@ public class RankRequest {
         this.password = password;
     }
 
-    public List<String> getBanks() {
-        return banks;
+    public String getBankName() {
+        return bankName;
     }
 
-    public void setBanks(List<String> banks) {
-        this.banks = banks;
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
     }
 }

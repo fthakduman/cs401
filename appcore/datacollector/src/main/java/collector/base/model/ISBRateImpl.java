@@ -24,7 +24,10 @@ public class ISBRateImpl implements ISBRate{
     private int currencyMinute;
     private DayOfWeek currencyDayOfWeek;
 
-    public ISBRateImpl( String majorCurrency, String minorCurrency) {
+    public ISBRateImpl() {
+    }
+
+    public ISBRateImpl(String majorCurrency, String minorCurrency) {
         this.majorCurrency = majorCurrency;
         this.minorCurrency = minorCurrency;
     }

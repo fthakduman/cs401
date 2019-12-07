@@ -5,21 +5,38 @@ import java.util.Map;
 
 public class RankResponse {
 
-    Map<String, String> ranks = new HashMap<String, String>();
+    private String bankName;
+
+    private String rank;
+
+    private String rankTimeFor;
+
 
     public RankResponse() {
 
     }
 
-    public Map<String, String> getRanks() {
-        return ranks;
+    public String getBankName() {
+        return bankName;
     }
 
-    public void setRanks(Map<String, String> ranks) {
-        this.ranks = ranks;
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
     }
 
-    public void addRanks(String bankName, String rank) {
-        this.ranks.put(bankName,rank);
+    public String getRank() {
+        return rank;
+    }
+
+    public void setRank(String rank) {
+        this.rank = rank;
+    }
+
+    public String getRankTimeFor() {
+        return rankTimeFor;
+    }
+
+    public void setRankTimeFor(String rankTimeFor) {
+        this.rankTimeFor = rankTimeFor;
     }
 }

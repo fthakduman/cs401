@@ -11,10 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import provider.base.service.DNZWrap;
 import provider.base.service.ISBWrap;
 import provider.base.service.YKBWrap;
@@ -63,10 +65,8 @@ public class RateImpl implements Rate {
 
     }
 
-    public Page<YKBRateImpl> getYKBRates(int year, Month month) {
-        PageRequest pq = new PageRequest(0, CommonUtils.RATE_SIZE_DAILY);
+    public Page<YKBRateImpl> getYKBRates(int year, Month month, Pageable pq) {
         Page<YKBRateImpl> ykbRates = ykbWrap.findMonthly(year, month, pq);
-
         return ykbRates;
 
     }

@@ -24,7 +24,10 @@ public class DNZRateImpl implements DNZRate {
     private int currencyMinute;
     private DayOfWeek currencyDayOfWeek;
 
-    public DNZRateImpl( String majorCurrency, String minorCurrency) {
+    public DNZRateImpl() {
+    }
+
+    public DNZRateImpl(String majorCurrency, String minorCurrency) {
         this.majorCurrency = majorCurrency;
         this.minorCurrency = minorCurrency;
     }
