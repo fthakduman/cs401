@@ -13,6 +13,8 @@ import provider.base.model.RankResponse;
 import provider.base.model.RateImpl;
 import provider.base.util.CommonUtils;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -83,42 +85,21 @@ public class RankCreator implements Rank {
                      rates = rate.getYKBRates(year, month,rates.nextPageable());
                     rates.iterator().forEachRemaining(rate -> spreads.add(rate.getSellRate() - rate.getBuyRate()));
                 }
-                double std = Statistic.getMeanAndStdDev(spreads.iterator(), new DoubleExtractor())[2];
-                ranges.entrySet().forEach(range -> {
-                    if (range.getValue().containsNumber(std)) {
-                        response.setRank(range.getKey());
-                    }
-                });
-                response.setRankTimeFor(month.name());
-                responses.add(response);
+                getStandartDev(month, responses, response);
             }
             else if (bankName.equals(CommonUtils.isb)) {
                 RankResponse response = new RankResponse();
                 response.setBankName(CommonUtils.isb);
                 Page<ISBRateImpl> rates = rate.getISBRates(year, month);
                 rates.iterator().forEachRemaining(rate -> spreads.add(rate.getSellRate() - rate.getBuyRate()));
-                double std = Statistic.getMeanAndStdDev(spreads.iterator(), new DoubleExtractor())[2];
-                ranges.entrySet().forEach(range -> {
-                    if (range.getValue().containsNumber(std)) {
-                        response.setRank(range.getKey());
-                    }
-                });
-                response.setRankTimeFor(month.name());
-                responses.add(response);
+                getStandartDev(month, responses, response);
             }
             else if (bankName.equals(CommonUtils.dnz)) {
                 RankResponse response = new RankResponse();
                 response.setBankName(CommonUtils.dnz);
                 Page<DNZRateImpl> rates = rate.getDNZRates(year, month);
                 rates.iterator().forEachRemaining(rate -> spreads.add(rate.getSellRate() - rate.getBuyRate()));
-                double std = Statistic.getMeanAndStdDev(spreads.iterator(), new DoubleExtractor())[2];
-                ranges.entrySet().forEach(range -> {
-                    if (range.getValue().containsNumber(std)) {
-                        response.setRank(range.getKey());
-                    }
-                });
-                response.setRankTimeFor(month.name());
-                responses.add(response);
+                getStandartDev(month, responses, response);
             }
 
         }
@@ -134,48 +115,107 @@ public class RankCreator implements Rank {
                 response.setBankName(CommonUtils.ykb);
                 Page<YKBRateImpl> rates = rate.getYKBRates(year, month,currencyDayOfMonthValue);
                 rates.iterator().forEachRemaining(rate -> spreads.add(rate.getSellRate() - rate.getBuyRate()));
-                double std = Statistic.getMeanAndStdDev(spreads.iterator(), new DoubleExtractor())[2];
-                ranges.entrySet().forEach(range -> {
-                    if (range.getValue().containsNumber(std)) {
-                        response.setRank(range.getKey());
-                    }
-                });
-                response.setRankTimeFor(month.name());
-                responses.add(response);
+                getStandartDev(month, responses, response);
             }
             else if (bankName.equals(CommonUtils.isb)) {
                 RankResponse response = new RankResponse();
                 response.setBankName(CommonUtils.isb);
                 Page<ISBRateImpl> rates = rate.getISBRates(year, month,currencyDayOfMonthValue);
                 rates.iterator().forEachRemaining(rate -> spreads.add(rate.getSellRate() - rate.getBuyRate()));
-                double std = Statistic.getMeanAndStdDev(spreads.iterator(), new DoubleExtractor())[2];
-                ranges.entrySet().forEach(range -> {
-                    if (range.getValue().containsNumber(std)) {
-                        response.setRank(range.getKey());
-                    }
-                });
-                response.setRankTimeFor(month.name());
-                responses.add(response);
+                getStandartDev(month, responses, response);
             }
             else if (bankName.equals(CommonUtils.dnz)) {
                 RankResponse response = new RankResponse();
                 response.setBankName(CommonUtils.dnz);
                 Page<DNZRateImpl> rates = rate.getDNZRates(year, month,currencyDayOfMonthValue);
                 rates.iterator().forEachRemaining(rate -> spreads.add(rate.getSellRate() - rate.getBuyRate()));
-                double std = Statistic.getMeanAndStdDev(spreads.iterator(), new DoubleExtractor())[2];
-                ranges.entrySet().forEach(range -> {
-                    if (range.getValue().containsNumber(std)) {
-                        response.setRank(range.getKey());
-                    }
-                });
-                response.setRankTimeFor(month.name());
-                responses.add(response);
+                getStandartDev(month, responses, response);
             }
 
         }
         return responses;
 
 
+    }
+    public List<RankResponse> getRank(int year, Month month, int currencyDayOfMonthValue,int hour) {
+        List<RankResponse> responses = new ArrayList<RankResponse>();
+        for (String bankName : bakNames) {
+            if (bankName.equals(CommonUtils.ykb)) {
+                RankResponse response = new RankResponse();
+                response.setBankName(CommonUtils.ykb);
+                Page<YKBRateImpl> rates = rate.getYKBRates(year, month,currencyDayOfMonthValue,hour);
+                rates.iterator().forEachRemaining(rate -> spreads.add(rate.getSellRate() - rate.getBuyRate()));
+                getStandartDev(month, responses, response);
+            }
+            else if (bankName.equals(CommonUtils.isb)) {
+                RankResponse response = new RankResponse();
+                response.setBankName(CommonUtils.isb);
+                Page<ISBRateImpl> rates = rate.getISBRates(year, month,currencyDayOfMonthValue,hour);
+                rates.iterator().forEachRemaining(rate -> spreads.add(rate.getSellRate() - rate.getBuyRate()));
+                getStandartDev(month, responses, response);
+            }
+            else if (bankName.equals(CommonUtils.dnz)) {
+                RankResponse response = new RankResponse();
+                response.setBankName(CommonUtils.dnz);
+                Page<DNZRateImpl> rates = rate.getDNZRates(year, month,currencyDayOfMonthValue,hour);
+                rates.iterator().forEachRemaining(rate -> spreads.add(rate.getSellRate() - rate.getBuyRate()));
+                getStandartDev(month, responses, response);
+            }
+
+        }
+        return responses;
+    }
+    public List<RankResponse> getRankByHours(int hours) {
+        LocalDateTime now = LocalDateTime.now();
+        List<RankResponse> responses = new ArrayList<RankResponse>();
+        for (String bankName : bakNames) {
+            if (bankName.equals(CommonUtils.ykb)) {
+                RankResponse response = new RankResponse();
+                response.setBankName(CommonUtils.ykb);
+                long remaining = 0;
+                while(hours - remaining > 0){
+                    Page<YKBRateImpl> rates = rate.getYKBRates(now.getYear(), now.getMonth(),now.getDayOfMonth(),now.minusHours(remaining).getHour());
+                    rates.iterator().forEachRemaining(rate -> spreads.add(rate.getSellRate() - rate.getBuyRate()));
+                    remaining++;
+                }
+
+                getStandartDev(now.getMonth(), responses, response);
+            }
+            else if (bankName.equals(CommonUtils.isb)) {
+                RankResponse response = new RankResponse();
+                response.setBankName(CommonUtils.isb);
+                long remaining = 0;
+                while(hours - remaining > 0){
+                    Page<ISBRateImpl> rates = rate.getISBRates(now.getYear(), now.getMonth(),now.getDayOfMonth(),now.minusHours(remaining).getHour());
+                    rates.iterator().forEachRemaining(rate -> spreads.add(rate.getSellRate() - rate.getBuyRate()));
+                    remaining++;
+                }
+                getStandartDev(now.getMonth(), responses, response);
+            }
+            else if (bankName.equals(CommonUtils.dnz)) {
+                RankResponse response = new RankResponse();
+                response.setBankName(CommonUtils.dnz);
+                long remaining = 0;
+                while(hours - remaining > 0){
+                    Page<DNZRateImpl> rates = rate.getDNZRates(now.getYear(), now.getMonth(),now.getDayOfMonth(),now.minusHours(remaining).getHour());
+                    rates.iterator().forEachRemaining(rate -> spreads.add(rate.getSellRate() - rate.getBuyRate()));
+                    remaining++;
+                }
+                getStandartDev(now.getMonth(), responses, response);
+            }
+        }
+        return responses;
+    }
+
+    private void getStandartDev(Month month, List<RankResponse> responses, RankResponse response) {
+        double std = Statistic.getMeanAndStdDev(spreads.iterator(), new DoubleExtractor())[2];
+        ranges.entrySet().forEach(range -> {
+            if (range.getValue().containsNumber(std)) {
+                response.setRank(range.getKey());
+            }
+        });
+        response.setRankTimeFor(month.name());
+        responses.add(response);
     }
 
 }

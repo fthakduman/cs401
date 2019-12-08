@@ -18,8 +18,6 @@ public class UserApi extends SpringBootServletInitializer implements CommandLine
     @Autowired
     private ElasticsearchOperations es;
 
-    @Autowired
-    private UserServiceImpl userService;
 
     public static void main(String args[]) {
         SpringApplication.run(UserApi.class, args);

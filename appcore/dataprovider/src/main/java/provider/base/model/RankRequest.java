@@ -1,6 +1,8 @@
 package provider.base.model;
 
+import javax.swing.*;
 import java.util.List;
+import java.util.Map;
 
 public class RankRequest {
 
@@ -8,13 +10,21 @@ public class RankRequest {
 
     private String password;
 
-    private String bankName;
+
+
+    private List<Map<String,String>> bankNames ;
 
 
 
     public RankRequest() {
     }
+    public List<Map<String, String>> getBankNames() {
+        return bankNames;
+    }
 
+    public void setBankNames(List<Map<String, String>> bankNames) {
+        this.bankNames = bankNames;
+    }
 
     public String getUserName() {
         return userName;
@@ -32,11 +42,4 @@ public class RankRequest {
         this.password = password;
     }
 
-    public String getBankName() {
-        return bankName;
-    }
-
-    public void setBankName(String bankName) {
-        this.bankName = bankName;
-    }
 }

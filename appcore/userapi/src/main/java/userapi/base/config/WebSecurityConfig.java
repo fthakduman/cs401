@@ -16,7 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@ComponentScan(basePackages = "collector.user")
+@ComponentScan(basePackages = "userapi.base")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
@@ -36,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/exchangerates/api/registeruser").antMatchers(HttpMethod.POST);
+        web.ignoring().antMatchers("/userapi/api/*").antMatchers(HttpMethod.POST);
     }
 
     @Override
@@ -47,8 +47,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests().antMatchers("/exchangerates/api").permitAll()
-                .and().authorizeRequests().antMatchers("exchangerates/api/user/").hasRole("admin")
+                .authorizeRequests().antMatchers("/userapi/api/**").permitAll()
+                .and().authorizeRequests().antMatchers("userapi/api/user/sdsa").hasRole("admin")
                 .antMatchers(HttpMethod.DELETE).permitAll()
                 .and().csrf().disable();
 
