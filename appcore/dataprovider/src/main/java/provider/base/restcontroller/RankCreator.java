@@ -45,6 +45,8 @@ public class RankCreator implements Rank {
 
     private DoubleRange D = new DoubleRange(0.90, 1);
 
+    private DoubleRange F = new DoubleRange(1, 10);
+
 
     StandardDeviation sd = new StandardDeviation(false);
 
@@ -70,6 +72,7 @@ public class RankCreator implements Rank {
         ranges.put("C", C);
         ranges.put("C-", Cminus);
         ranges.put("D", D);
+        ranges.put("F", F);
     }
 
     public List<RankResponse> getRank(int year, Month month) {
@@ -216,6 +219,7 @@ public class RankCreator implements Rank {
         });
         response.setRankTimeFor(month.name());
         responses.add(response);
+        spreads.clear();
     }
 
 }

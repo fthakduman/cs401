@@ -17,19 +17,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.ozu.exchangerates</groupId>
-            <artifactId>dataadapter</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>com.ozu.exchangerates</groupId>
-            <artifactId>datacollector</artifactId>
-            <version>1.5.1.RELEASE</version>
-            <type>jar</type>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
 <!--            <exclusions>

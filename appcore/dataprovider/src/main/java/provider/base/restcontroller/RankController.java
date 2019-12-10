@@ -9,6 +9,8 @@ import provider.base.model.RankResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import provider.base.service.UserCheck;
+import provider.base.service.UserChecker;
 import provider.base.util.CommonUtils;
 import userapi.base.service.UserService;
 
@@ -24,21 +26,29 @@ public class RankController {
     @Autowired
     RankCreator rankCreator;
 
+
+    UserChecker userchecker = new UserChecker();
+
     @GetMapping("/rank/{month}")
     public ResponseEntity<List<RankResponse>> getByMonth(@RequestBody RankRequest request,@PathVariable String month) {
-        List<String> banks = new ArrayList<String>();
-        request.getBankNames().forEach(names -> banks.add(names.get("bankName")));
+         List<String> banks = new ArrayList<String>();
+         request.getBankNames().forEach(names -> banks.add(names.get("bankName")));
          rankCreator.setBankNames(banks);
          List<RankResponse> responses = new ArrayList<RankResponse>();
          List<RankResponse> rankResponses= rankCreator.getRank(2019, Month.valueOf(month));
         return new ResponseEntity<List<RankResponse>>(rankResponses, HttpStatus.OK);
     }
-    @PostMapping("/rank/{month}/{currencyDayOfMonthValue}")
+    @GetMapping("/rank/{month}/{currencyDayOfMonthValue}")
     public ResponseEntity<List<RankResponse>> getByMonth(@RequestBody RankRequest request,@PathVariable String month, @PathVariable int currencyDayOfMonthValue) {
         List<String> banks = new ArrayList<String>();
         request.getBankNames().forEach(names -> banks.add(names.get("bankName")));
-        rankCreator.setBankNames(banks);
         List<RankResponse> responses = new ArrayList<RankResponse>();
+        if(!userchecker.isBankNameValid(request)){
+            return new ResponseEntity("" , HttpStatus.NOT_ACCEPTABLE);
+        }
+
+        rankCreator.setBankNames(banks);
+
         List<RankResponse> rankResponses= rankCreator.getRank(2019, Month.valueOf(month),currencyDayOfMonthValue);
         return new ResponseEntity<List<RankResponse>>(rankResponses, HttpStatus.OK);
     }
@@ -98,6 +108,4 @@ public class RankController {
         List<RankResponse> rankResponses= rankCreator.getRankByHours(17);
         return new ResponseEntity<List<RankResponse>>(rankResponses, HttpStatus.OK);
     }
-
-
 }
