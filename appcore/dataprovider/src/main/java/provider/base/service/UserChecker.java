@@ -1,7 +1,10 @@
 package provider.base.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 import provider.base.model.RankRequest;
 import provider.base.util.CommonUtils;
 import userapi.base.model.UserImpl;
@@ -13,7 +16,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-
+@Service
+@Qualifier("checker")
 public class UserChecker implements UserCheck {
 
     @Autowired

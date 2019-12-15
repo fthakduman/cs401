@@ -2,6 +2,7 @@ package provider.base.restcontroller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import provider.base.model.RankRequest;
@@ -26,8 +27,10 @@ public class RankController {
     @Autowired
     RankCreator rankCreator;
 
+    @Autowired
+    @Qualifier("checker")
+    UserCheck userchecker;
 
-    UserChecker userchecker = new UserChecker();
 
     @GetMapping("/rank/{month}")
     public ResponseEntity<List<RankResponse>> getByMonth(@RequestBody RankRequest request,@PathVariable String month) {
@@ -43,21 +46,25 @@ public class RankController {
         List<String> banks = new ArrayList<String>();
         request.getBankNames().forEach(names -> banks.add(names.get("bankName")));
         List<RankResponse> responses = new ArrayList<RankResponse>();
-        if(!userchecker.isBankNameValid(request)){
-            return new ResponseEntity("" , HttpStatus.NOT_ACCEPTABLE);
-        }
+        ResponseEntity<List<RankResponse>> checkResponse = checkRequest(request);
+        if (checkResponse != null) return checkResponse;
 
         rankCreator.setBankNames(banks);
 
         List<RankResponse> rankResponses= rankCreator.getRank(2019, Month.valueOf(month),currencyDayOfMonthValue);
         return new ResponseEntity<List<RankResponse>>(rankResponses, HttpStatus.OK);
     }
+
+
+
     @GetMapping("/rank/{month}/{currencyDayOfMonthValue}/{currencyHour}")
     public ResponseEntity<List<RankResponse>> getByMonth(@RequestBody RankRequest request, @PathVariable String month,@PathVariable int currencyDayOfMonthValue,@PathVariable int currencyHour) {
         List<String> banks = new ArrayList<String>();
         request.getBankNames().forEach(names -> banks.add(names.get("bankName")));
         rankCreator.setBankNames(banks);
         List<RankResponse> responses = new ArrayList<RankResponse>();
+        ResponseEntity<List<RankResponse>> checkResponse = checkRequest(request);
+        if (checkResponse != null) return checkResponse;
         List<RankResponse> rankResponses= rankCreator.getRank(2019, Month.valueOf(month),currencyDayOfMonthValue,currencyHour);
         return new ResponseEntity<List<RankResponse>>(rankResponses, HttpStatus.OK);
     }
@@ -87,6 +94,10 @@ public class RankController {
         request.getBankNames().forEach(names -> banks.add(names.get("bankName")));
         rankCreator.setBankNames(banks);
         List<RankResponse> responses = new ArrayList<RankResponse>();
+
+        ResponseEntity<List<RankResponse>> checkResponse = checkRequest(request);
+        if (checkResponse != null) return checkResponse;
+
         List<RankResponse> rankResponses= rankCreator.getRankByHours(5);
         return new ResponseEntity<List<RankResponse>>(rankResponses, HttpStatus.OK);
     }
@@ -96,6 +107,10 @@ public class RankController {
         request.getBankNames().forEach(names -> banks.add(names.get("bankName")));
         rankCreator.setBankNames(banks);
         List<RankResponse> responses = new ArrayList<RankResponse>();
+
+        ResponseEntity<List<RankResponse>> checkResponse = checkRequest(request);
+        if (checkResponse != null) return checkResponse;
+
         List<RankResponse> rankResponses= rankCreator.getRankByHours(11);
         return new ResponseEntity<List<RankResponse>>(rankResponses, HttpStatus.OK);
     }
@@ -105,7 +120,31 @@ public class RankController {
         request.getBankNames().forEach(names -> banks.add(names.get("bankName")));
         rankCreator.setBankNames(banks);
         List<RankResponse> responses = new ArrayList<RankResponse>();
+
+        ResponseEntity<List<RankResponse>> checkResponse = checkRequest(request);
+        if (checkResponse != null) return checkResponse;
+
         List<RankResponse> rankResponses= rankCreator.getRankByHours(17);
         return new ResponseEntity<List<RankResponse>>(rankResponses, HttpStatus.OK);
+    }
+
+    private ResponseEntity<List<RankResponse>> checkRequest(@RequestBody RankRequest request) {
+        if(!userchecker.isBankNameValid(request)){
+            return new ResponseEntity("Choose among these bank Names:"
+                    + CommonUtils.ykb+" " +CommonUtils.isb+ " "+ CommonUtils.dnz , HttpStatus.NOT_ACCEPTABLE);
+        }
+        if(!userchecker.isRequestKeyValid(request)){
+            return new ResponseEntity("Please control request body: " ,HttpStatus.NOT_ACCEPTABLE);
+        }
+//        if(!userchecker.isUserExist(request)){
+//            return new ResponseEntity("No such User " ,HttpStatus.NOT_FOUND);
+//        }
+        if(!userchecker.isPasswordValid(request)){
+            return new ResponseEntity("Wrong Password for the user " ,HttpStatus.FORBIDDEN);
+        }
+        if(!userchecker.isBankNumberValid(request)){
+            return new ResponseEntity("STANDART users cannot request for more than 2 banks" ,HttpStatus.FORBIDDEN);
+        }
+        return null;
     }
 }
