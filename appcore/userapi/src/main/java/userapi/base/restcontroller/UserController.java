@@ -40,33 +40,33 @@ public class UserController {
 
     }
 
-    @PutMapping("/user/{id}")
-    public UserImpl updateUser(@RequestBody UserImpl userRecord, @PathVariable String id) {
-        return userService.updateUser(id, userRecord);
+    @PutMapping("/user/{username}")
+    public UserImpl updateUser(@RequestBody UserImpl userRecord, @PathVariable String username) {
+        return userService.updateUser(username, userRecord);
     }
 
-    @PutMapping("/user/resetpassword/{id}")
-    public UserImpl updateUserPassword(@RequestBody UserImpl userRecord, @PathVariable String id) {
-        return userService.updateUserPassword(id, userRecord);
+    @PutMapping("/user/resetpassword/{username}")
+    public UserImpl updateUserPassword(@RequestBody UserImpl userRecord, @PathVariable String username) {
+        return userService.updateUserPassword(username, userRecord);
     }
 
-    @PutMapping("/user/changeRole/{id}")
-    public UserImpl updateUserRole(@RequestBody UserImpl userRecord, @PathVariable String id) {
-        return userService.updateUserRole(id, userRecord);
+    @PutMapping("/user/changeRole/{username}")
+    public UserImpl updateUserRole(@RequestBody UserImpl userRecord, @PathVariable String username) {
+        return userService.updateUserRole(username, userRecord);
     }
 
-    @DeleteMapping("/user/{id}")
-    public String deleteUser(@PathVariable String id) {
-        userService.deleteUserById(id);
-        if (userService.findById(id) == null) {
+    @DeleteMapping("/user/{username}")
+    public String deleteUser(@PathVariable String username) {
+        userService.deleteUserById(username);
+        if (userService.findById(username) == null) {
             return "deleted";
         }
         return "delete operation failed";
     }
 
-    @GetMapping("/user/{id}")
-    public ResponseEntity<UserImpl> getUserById(@PathVariable String id) {
-        UserImpl userInfo = userService.findById(id);
+    @GetMapping("/user/{username}")
+    public ResponseEntity<UserImpl> getUserById(@PathVariable String username) {
+        UserImpl userInfo = userService.findById(username);
         if (userInfo == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

@@ -49,30 +49,31 @@ public class UserServiceImpl implements UserService{
 
 
     @Override
-    public UserImpl updateUser(String id, UserImpl userImpl) {
-        UserImpl userInfo = userRepository.findOne(id);
+    public UserImpl updateUser(String username, UserImpl userImpl) {
+        UserImpl userInfo = userRepository.findOne(userRepository.findUserImplByUserName(username).get(0).getId());
         userInfo.setUserName(userImpl.getUserName());
         userInfo.setPassword(userImpl.getPassword());
         userInfo.setUserRole(userImpl.getUserRole());
         return saveUser(userInfo);
     }
     @Override
-    public UserImpl updateUserPassword(String id, UserImpl userImpl) {
-        UserImpl userInfo = userRepository.findOne(id);
+    public UserImpl updateUserPassword(String username, UserImpl userImpl) {
+        UserImpl userInfo = userRepository.findOne(userRepository.findUserImplByUserName(username).get(0).getId());
         userInfo.setPassword(userImpl.getPassword());
         return saveUser(userInfo);
     }
 
     @Override
-    public UserImpl updateUserRole(String id, UserImpl userRecord) {
-        UserImpl userInfo = userRepository.findOne(id);
+    public UserImpl updateUserRole(String username, UserImpl userRecord) {
+        UserImpl userInfo = userRepository.findOne(userRepository.findUserImplByUserName(username).get(0).getId());
         userInfo.setUserRole(userRecord.getUserRole());
         return saveUser(userInfo);
     }
 
     @Override
-    public void deleteUserById(String id) {
-        userRepository.delete(id);
+    public void deleteUserById(String username) {
+
+        userRepository.delete(userRepository.findUserImplByUserName(username).get(0).getId());
     }
 
     @Override

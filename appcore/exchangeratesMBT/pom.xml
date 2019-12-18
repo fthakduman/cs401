@@ -21,6 +21,12 @@
 
 
     <dependencies>
+        <dependency>
+            <groupId>com.ozu.exchangerates</groupId>
+            <artifactId>dataprovider</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <type>jar</type>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/nz.ac.waikato.modeljunit/modeljunit -->
         <dependency>
             <groupId>nz.ac.waikato.modeljunit</groupId>
