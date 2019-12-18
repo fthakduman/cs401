@@ -19,6 +19,7 @@
         <module>dataadapter</module>
         <module>userapi</module>
         <module>dataprovider</module>
+        <module>exchangeratesMBT</module>
     </modules>
 
     <name>appcore</name>

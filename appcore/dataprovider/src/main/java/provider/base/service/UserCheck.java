@@ -8,5 +8,5 @@ public interface UserCheck {
     public boolean isPasswordValid(RankRequest request);
     public boolean isBankNumberValid(RankRequest request);
     public boolean isBankNameValid(RankRequest request);
-    public boolean isRequestKeyValid(RankRequest request);
+    public boolean isRequestSchemaValid(RankRequest request);
 }
