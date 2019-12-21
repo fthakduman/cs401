@@ -63,6 +63,11 @@ public class UserController {
         }
         return "delete operation failed";
     }
+    @DeleteMapping("/user/deleteall")
+    public String deleteAllUser() {
+        userService.deleteAllUsers();
+        return "all users deleted";
+    }
 
     @GetMapping("/user/{username}")
     public ResponseEntity<UserImpl> getUserById(@PathVariable String username) {

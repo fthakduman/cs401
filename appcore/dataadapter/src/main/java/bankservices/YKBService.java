@@ -23,27 +23,29 @@ public class YKBService {
     JSONObject requestResponse = null;
 
 
-    public YKBService(){
+    public YKBService() {
 
     }
 
 
-    public void makeRequest(){
+    public void makeRequest() {
         RestTemplate restTemplate = new RestTemplate();
         String urlToken = "https://api.yapikredi.com.tr/auth/oauth/v2/token";
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
         headers.add("CONTENT_TYPE", MediaType.APPLICATION_FORM_URLENCODED_VALUE);
         //headers.add("CONTENT_TYPE", MediaType.APPLICATION_JSON);
 
-        headers.add("Accept","application/json");
+        headers.add("Accept", "application/json");
         MultiValueMap<String, String> body = new LinkedMultiValueMap<String, String>();
         body.add("scope", "oob");
         body.add("grant_type", "client_credentials");
         body.add("client_id", "l7xxb890fe1707ec48b28a783b75eee2a93c");
         body.add("client_secret", "2fa84e0ead8d49a293d102f34055f1c6");
-        HttpEntity<?> entity= new HttpEntity<Object>(body, headers);
+        HttpEntity<?> entity = new HttpEntity<Object>(body, headers);
         ResponseEntity<String> result = restTemplate.exchange(urlToken, HttpMethod.POST, entity, String.class);
         ObjectMapper mapper = new ObjectMapper();
+
+
         JsonNode root = null;
         try {
             root = mapper.readTree(result.getBody());
@@ -90,7 +92,7 @@ public class YKBService {
         }
         BufferedReader rd = null;
         try {
-            if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+            if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
                 rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             } else {
                 rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
@@ -118,7 +120,8 @@ public class YKBService {
         requestResponse = new JSONObject(sb.toString());
         conn.disconnect();
     }
-    public JSONObject getRequestResponse(){
+
+    public JSONObject getRequestResponse() {
         return requestResponse;
     }
 }

@@ -132,9 +132,9 @@ public class RankController {
     private ResponseEntity<List<RankResponse>> checkRequest(@RequestBody RankRequest request) {
 
           if (!userchecker.isUserExist(request)) {
-            return new ResponseEntity("No such User ", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("No such User", HttpStatus.NOT_FOUND);
         } else if (!userchecker.isPasswordValid(request)) {
-            return new ResponseEntity("Wrong Password for the user ", HttpStatus.FORBIDDEN);
+            return new ResponseEntity("Wrong Password for the user", HttpStatus.FORBIDDEN);
         } else if (!userchecker.isBankNumberValid(request)) {
             return new ResponseEntity("STANDART users cannot request for more than 2 banks", HttpStatus.FORBIDDEN);
         } else if (!userchecker.isBankNameValid(request)) {
