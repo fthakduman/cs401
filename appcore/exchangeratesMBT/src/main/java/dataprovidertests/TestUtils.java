@@ -84,19 +84,20 @@ public final class TestUtils {
         HashMap<String, String> ykb = new HashMap<String, String>();
         ykb.put("bankName", CommonUtils.ykb);
         HashMap<String, String> isb = new HashMap<String, String>();
-        ykb.put("bankName", CommonUtils.isb);
+        isb.put("bankName", CommonUtils.isb);
         HashMap<String, String> dnz = new HashMap<String, String>();
-        ykb.put("bankName", CommonUtils.dnz);
+        dnz.put("bankName", CommonUtils.dnz);
         HashMap<String, String> mockBank = new HashMap<String, String>();
-        ykb.put("bankName", "mockBank");
+        mockBank.put("bankName", "mockBank");
         bankNames.add(ykb);
         bankNames.add(isb);
         bankNames.add(dnz);
+        bankNames.add(mockBank);
 
         int removecount = random.nextInt(bankNames.size());
         for(int i =0; i<removecount; i++){
-            bankNames.remove(0);
-        }
+            bankNames.remove(random.nextInt(bankNames.size())); }
+
     return bankNames;
     }
 }

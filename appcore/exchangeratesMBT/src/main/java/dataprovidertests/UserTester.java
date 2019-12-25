@@ -23,7 +23,7 @@ public class UserTester {
         tester.addCoverageMetric(new TransitionCoverage());
         tester.addCoverageMetric(new StateCoverage());
         tester.addCoverageMetric(new ActionCoverage());
-        tester.generate(100);
+        tester.generate(20);
         tester.printCoverage();
     }
 

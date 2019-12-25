@@ -28,7 +28,7 @@ public class RankController {
     UserCheck userchecker;
 
 
-    @GetMapping("/rank/{month}")
+    @PostMapping("/rank/{month}")
     public ResponseEntity<List<RankResponse>> getByMonth(@RequestBody RankRequest request, @PathVariable String month) {
         List<String> banks = new ArrayList<String>();
         request.getBankNames().forEach(names -> banks.add(names.get("bankName")));
@@ -38,7 +38,7 @@ public class RankController {
         return new ResponseEntity<List<RankResponse>>(rankResponses, HttpStatus.OK);
     }
 
-    @GetMapping("/rank/{month}/{currencyDayOfMonthValue}")
+    @PostMapping("/rank/{month}/{currencyDayOfMonthValue}")
     public ResponseEntity<List<RankResponse>> getByMonth(@RequestBody RankRequest request, @PathVariable String month, @PathVariable int currencyDayOfMonthValue) {
 
         ResponseEntity<List<RankResponse>> checkResponse = checkRequest(request);
@@ -54,7 +54,7 @@ public class RankController {
     }
 
 
-    @GetMapping("/rank/{month}/{currencyDayOfMonthValue}/{currencyHour}")
+    @PostMapping("/rank/{month}/{currencyDayOfMonthValue}/{currencyHour}")
     public ResponseEntity<List<RankResponse>> getByMonth(@RequestBody RankRequest request, @PathVariable String month, @PathVariable int currencyDayOfMonthValue, @PathVariable int currencyHour) {
 
         ResponseEntity<List<RankResponse>> checkResponse = checkRequest(request);
@@ -87,9 +87,10 @@ public class RankController {
 //        }
 //        return new ResponseEntity<List<YKBRateImpl>>(userImpls, HttpStatus.OK);
 //    }
-    @GetMapping("/rank/last6h")
+    @PostMapping("/rank/last6h")
     public ResponseEntity<List<RankResponse>> getByLast6H(@RequestBody RankRequest request) {
 
+        System.out.println("rank6h worked");
 
         ResponseEntity<List<RankResponse>> checkResponse = checkRequest(request);
         if (checkResponse != null) return checkResponse;
@@ -101,7 +102,7 @@ public class RankController {
         return new ResponseEntity<List<RankResponse>>(rankResponses, HttpStatus.OK);
     }
 
-    @GetMapping("/rank/last12h")
+    @PostMapping("/rank/last12h")
     public ResponseEntity<List<RankResponse>> getByLast12H(@RequestBody RankRequest request) {
 
 
@@ -115,7 +116,7 @@ public class RankController {
         return new ResponseEntity<List<RankResponse>>(rankResponses, HttpStatus.OK);
     }
 
-    @GetMapping("/rank/last18h")
+    @PostMapping("/rank/last18h")
     public ResponseEntity<List<RankResponse>> getByLast18H(@RequestBody RankRequest request) {
 
 
@@ -136,7 +137,7 @@ public class RankController {
         } else if (!userchecker.isPasswordValid(request)) {
             return new ResponseEntity("Wrong Password for the user", HttpStatus.FORBIDDEN);
         } else if (!userchecker.isBankNumberValid(request)) {
-            return new ResponseEntity("STANDART users cannot request for more than 2 banks", HttpStatus.FORBIDDEN);
+            return new ResponseEntity("STANDART users cannot request for more than 2 banks", HttpStatus.BAD_GATEWAY);
         } else if (!userchecker.isBankNameValid(request)) {
             return new ResponseEntity("Choose among these bank Names:"
                     + CommonUtils.ykb + " " + CommonUtils.isb + " " + CommonUtils.dnz, HttpStatus.NOT_ACCEPTABLE);
