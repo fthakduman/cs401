@@ -4,24 +4,14 @@ import javax.swing.*;
 import java.util.List;
 import java.util.Map;
 
-public class RankRequest {
+public class RankRequest2 {
 
     private String userName;
 
     private String password;
 
-    private List<Map<String,String>> bankNames ;
 
-
-
-    public RankRequest() {
-    }
-    public List<Map<String, String>> getBankNames() {
-        return bankNames;
-    }
-
-    public void setBankNames(List<Map<String, String>> bankNames) {
-        this.bankNames = bankNames;
+    public RankRequest2() {
     }
 
     public String getUserName() {

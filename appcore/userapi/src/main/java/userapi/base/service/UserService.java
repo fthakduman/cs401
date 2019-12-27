@@ -19,7 +19,7 @@ public interface UserService {
 
     UserImpl updateUserRole(  String id ,UserImpl userRecord );
 
-    void deleteUserById(String id);
+    void deleteUserByName(String id);
 
     Collection<UserImpl> findAllUsers();
 

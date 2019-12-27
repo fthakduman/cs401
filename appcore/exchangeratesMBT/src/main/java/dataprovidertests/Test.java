@@ -18,36 +18,26 @@ import java.util.List;
 
 public class Test {
     public static void main (String args []){
-        RestTemplate  rankRequest = new RestTemplate();
-        RankRequest request = new RankRequest();
-        request.setUserName("mustafas");
-        request.setPassword("xyz");
-        request.setBankNames(TestUtils.getBankNames());
+        UserAdapter adapter = new UserAdapter();
+        adapter.delete(false);
+        adapter.register();
 
-        String urlToken = "http://localhost:8092/dataprovider/api/v1/rank/last6h";
-
-        MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
-
-        headers.add("Content-Type", MediaType.APPLICATION_JSON_VALUE);
-
-        headers.add("Accept", "application/json");
-        ParameterizedTypeReference<List<RankResponse>> responseType = new ParameterizedTypeReference<List<RankResponse>>() {};
-        RequestEntity<RankRequest> entity = new RequestEntity<RankRequest>(request, headers, HttpMethod.POST,URI.create(urlToken) );
-        ResponseEntity<List<RankResponse>> result = null;
-        try{
-            result  = rankRequest.exchange(entity,responseType );
-            if(result.getStatusCode().is2xxSuccessful()){
-                result.getBody().forEach( res -> {
-                    System.out.println(res.getBankName() + " " + res.getRank()+ " " + res.getRankTimeFor());
-                });
-            }
-            if(result.getStatusCode().is4xxClientError()){
-                System.out.println("is4xxClientError(");
-            }
+        try {
+            adapter.makeRequest();
+            System.out.println(adapter.userName + " " + adapter.password + " " );
+            adapter.makeRequest();
+            System.out.println(adapter.userName + " " + adapter.password + " " );
+            adapter.changeRole();
+            System.out.println(adapter.userName + " " + adapter.password + " " );
+            adapter.changeName();
+            System.out.println(adapter.userName + " " + adapter.password + " " );
+            adapter.changePassword();
+            System.out.println(adapter.userName + " " + adapter.password + " " );
+            adapter.makeRequest();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        catch (HttpClientErrorException h){
-            System.out.println(h.getLocalizedMessage());
-        }
+        adapter.delete(false);
 
     }
 }

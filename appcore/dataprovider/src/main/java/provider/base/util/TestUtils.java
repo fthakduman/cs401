@@ -1,10 +1,8 @@
-package dataprovidertests;
+package provider.base.util;
 
 
 import provider.base.util.CommonUtils;
 
-import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.*;
 
 public final class TestUtils {
@@ -16,9 +14,8 @@ public final class TestUtils {
     public static final String ADMIN_ROLE = "ADMIN";
     public static final String STANDART_ROLE = "STANDART";
     public static final String PREMIUM_ROLE = "PREMIUM";
-    public static final String REGISTER_USER = "http://localhost:8093/userapi/api/registeruser";
+    public static final String REGISTER_USER = "";
     public static final String DELETE_USER = "http://localhost:8093/userapi/api/user/";
-    public static final String UPDATE_USER = "http://localhost:8093/userapi/api/user/";
     public static final String DELETE_USER_ALL = "http://localhost:8093/userapi/api/user/deleteall";
     public static ArrayList<String> PROVIDER_URLS;
     public static final ArrayList<String> USER_NAMES = new ArrayList<String>();
@@ -37,11 +34,11 @@ public final class TestUtils {
         int maxDay = 31;
 
         Random random = new Random();
-        PROVIDER_URLS.add("http://localhost:8092/dataprovider/api/v1/rank/" + Month.of(random.nextInt(maxMonth + 1 - min) + min).name() + "/" +
-                random.nextInt(maxDay + 1 - min) + min);
-        PROVIDER_URLS.add("http://localhost:8092/dataprovider/api/v1/rank/" + Month.of(random.nextInt(maxMonth + 1 - min) + min).name() + "/" +
-                random.nextInt(maxDay + 1 - min) + min + "/" +
-                random.nextInt(maxHour + 1 - minHour) + minHour);
+//        PROVIDER_URLS.add("http://localhost:8092/dataprovider/api/v1/rank/" + Month.of(random.nextInt(maxMonth + 1 - min) + min).name() + "/" +
+//                random.nextInt(maxDay + 1 - min) + min);
+//        PROVIDER_URLS.add("http://localhost:8092/dataprovider/api/v1/rank/" + Month.of(random.nextInt(maxMonth + 1 - min) + min).name() + "/" +
+//                random.nextInt(maxDay + 1 - min) + min + "/" +
+//                random.nextInt(maxHour + 1 - minHour) + minHour);
 
         return PROVIDER_URLS.get(random.nextInt(PROVIDER_URLS.size()));
     }
@@ -70,13 +67,13 @@ public final class TestUtils {
     }
     public static String getPassword() {
         Random random = new Random();
-        PASSWORDS.add("mustafapass");
-        PASSWORDS.add("fatihpass");
-        PASSWORDS.add("ozupass");
-        PASSWORDS.add("selinpasss");
-        PASSWORDS.add("jackpassw");
-        PASSWORDS.add("sheldonpasswd");
-        PASSWORDS.add("pennypasswd ");
+        PASSWORDS.add("mustafa");
+        PASSWORDS.add("fatih");
+        PASSWORDS.add("ozu");
+        PASSWORDS.add("selin");
+        PASSWORDS.add("jack");
+        PASSWORDS.add("sheldon");
+        PASSWORDS.add("penny");
         return PASSWORDS.get(random.nextInt(PASSWORDS.size()));
     }
     public static List<Map<String, String>> getBankNames() {
@@ -93,12 +90,12 @@ public final class TestUtils {
         bankNames.add(ykb);
         bankNames.add(isb);
         bankNames.add(dnz);
-        bankNames.add(mockBank);
+   //     bankNames.add(mockBank);
 
         int removecount = random.nextInt(bankNames.size());
         for(int i =0; i<removecount; i++){
-            bankNames.remove(random.nextInt(bankNames.size())); }
-
+            bankNames.remove(0);
+        }
     return bankNames;
     }
 }

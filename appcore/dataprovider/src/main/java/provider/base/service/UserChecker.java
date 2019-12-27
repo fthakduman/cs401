@@ -45,6 +45,7 @@ public class UserChecker implements UserCheck {
 
     public boolean isPasswordValid(RankRequest request) {
         UserImpl userFromDB = userRepository.findUserImplByUserName(request.getUserName()).get(0);
+        System.out.println(bCryptPasswordEncoder.matches(request.getPassword(), userFromDB.getPassword()));
         return bCryptPasswordEncoder.matches(request.getPassword(), userFromDB.getPassword());
     }
 

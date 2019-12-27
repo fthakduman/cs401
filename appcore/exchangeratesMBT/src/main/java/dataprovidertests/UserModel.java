@@ -4,6 +4,9 @@ import nz.ac.waikato.modeljunit.Action;
 import nz.ac.waikato.modeljunit.FsmModel;
 import userapi.base.model.UserRole;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public class UserModel implements FsmModel {
 
     public enum State {
@@ -11,7 +14,7 @@ public class UserModel implements FsmModel {
     }
     private State currentState = State.INITIAL;
     private UserAdapter userAdapter = new UserAdapter();
-
+    Random random = new Random();
     @Override
     public Object getState() {
         return currentState;
@@ -20,134 +23,108 @@ public class UserModel implements FsmModel {
     @Override
     public void reset(boolean testing) {
         currentState = State.INITIAL;
-        userAdapter.delete(false);
     }
 
 
 
     @Action
-    public void register(){
-
-        try{
-            if(currentState == State.INITIAL){
-                userAdapter.register();
-                userAdapter.update();
-            }
-            if(userAdapter.userRole == UserRole.ADMIN_ROLE){
-                currentState = State.ADMIN;
-            }
-            else if(userAdapter.userRole == UserRole.STANDART_ROLE){
-                currentState = State.STANDART;
-            }
-            else if(userAdapter.userRole == UserRole.PREMIUM_ROLE){
-                currentState = State.PREMIUM;
-            }
-        }
-        catch (Exception e ){
-            System.out.println(e.getMessage());
+    public void registerOrUpdate(){
+        ArrayList<State> states = new ArrayList<>();
+        states.add(State.ADMIN);
+        states.add(State.STANDART);
+        states.add(State.PREMIUM);
+        if(registerOrUpdateGuard()){
+            currentState = states.get(random.nextInt(states.size()));
         }
 
+    }
+    public boolean registerOrUpdateGuard(){
+        if(currentState == State.INITIAL){
+            return true;
+        }
+        return false;
     }
     @Action
     public void changeRole(){
-        try{
-            if(currentState == State.INITIAL){
-                userAdapter.changeRole();
-                if(userAdapter.userRole == UserRole.ADMIN_ROLE){
-                    currentState = State.ADMIN;
-                }
-                else if(userAdapter.userRole == UserRole.STANDART_ROLE){
-                    currentState = State.STANDART;
-                }
-                else if(userAdapter.userRole == UserRole.PREMIUM_ROLE){
-                    currentState = State.PREMIUM;
-                }
-            }
-            else if (currentState == State.WRONG_ROLE){
-                userAdapter.changeRole();
-                if(userAdapter.userRole == UserRole.ADMIN_ROLE){
-                    currentState = State.ADMIN;
-                }
-                else if(userAdapter.userRole == UserRole.STANDART_ROLE){
-                    currentState = State.STANDART;
-                }
-                else if(userAdapter.userRole == UserRole.PREMIUM_ROLE){
-                    currentState = State.PREMIUM;
-                }
-            }
-        }
-        catch (Exception e ){
-            System.out.println(e.getMessage());
+        if(changeRoleGuard()){
+            currentState = State.INITIAL;
         }
 
+    }
+    public boolean changeRoleGuard(){
+        if(currentState == State.WRONG_ROLE){
+            return true;
+        }
+    return false;
     }
     @Action
     public void makeRequest(){
-        try{
-            if(currentState == State.ADMIN || currentState == State.PREMIUM || currentState == State.STANDART){
-                userAdapter.makeRequest();
-                currentState = State.SUCCESS;
-            }
-        }
-        catch (Exception e ){
-            currentState = State.FAIL;
-            ///////////// set state acordıng to fail type by exception
-            System.out.println(e.getMessage());
-            currentState = State.FAIL;
+        ArrayList<State> states = new ArrayList<>();
+        states.add(State.SUCCESS);
+        states.add(State.FAIL);
+        if(makeRequestGuard()){
+            currentState = states.get(random.nextInt(states.size()));
         }
 
+    }
+    public boolean makeRequestGuard(){
+
+        if(currentState == State.ADMIN || currentState == State.PREMIUM || currentState == State.STANDART){
+            return true;
+        }
+        return false;
     }
     @Action
     public void changeUserName(){
-        try{
-            if(currentState == State.NOT_EXIST){
-                userAdapter.changeName();
-                currentState = State.INITIAL;
-            }
+        if(changeRoleGuard()){
+            currentState = State.INITIAL;
         }
-        catch (Exception e ){
-            System.out.println(e.getMessage());
-        }
+    }
+    public boolean changeUserNameGuard(){
 
+        if(currentState == State.NOT_EXIST){
+            return true;
+        }
+        return false;
     }
     @Action
     public void changePassword(){
-        try{
-            if(currentState == State.WRONG_PASSWORD){
-                userAdapter.changePassword();
-                currentState = State.INITIAL;
-            }
+        if(changePasswordGuard()){
+            currentState = State.INITIAL;
         }
-        catch (Exception e ){
-            System.out.println(e.getMessage());
-        }
+    }
+    public boolean changePasswordGuard(){
 
+        if(currentState == State.WRONG_PASSWORD){
+            return true;
+        }
+        return false;
     }
     @Action
     public void changeBankNames(){
-        try{
-            if(currentState == State.WRONG_BANKNAME){
-                userAdapter.changeBankName();
-                currentState = State.INITIAL;
-            }
+        if(changeBankNamesGuard()){
+            currentState = State.INITIAL;
         }
-        catch (Exception e ){
+    }
+    public boolean changeBankNamesGuard(){
 
+        if(currentState == State.WRONG_BANKNAME){
+            return true;
         }
-
+        return false;
     }
     @Action
     public void deleteUser(){
-        try{
-            if(currentState == State.SUCCESS){
-                userAdapter.delete(true);
-                currentState = State.INITIAL;
-            }
+        if(deleteUserGuard()){
+            currentState = State.INITIAL;
         }
-        catch (Exception e ){
+    }
+    public boolean deleteUserGuard(){
 
+        if(currentState == State.SUCCESS){
+            return true;
         }
-
+        return false;
     }
 
 
