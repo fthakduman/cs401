@@ -62,7 +62,7 @@ public class CurrencyCollectorTask {
     }
     private void executeDNZCollector(){
         DNZRateImpl dnzRate = new DNZRateImpl( "USD", "TL");
-        AdaptedISBService adapter = AdaptedISBService.getInstance( "USD", "TL");
+        AdaptedDNZService adapter = AdaptedDNZService.getInstance( "USD", "TL");
         adapter.makeRequest();
         dnzRate.setSellRate(adapter.getSellRate());
         dnzRate.setBuyRate(adapter.getBuyRate());

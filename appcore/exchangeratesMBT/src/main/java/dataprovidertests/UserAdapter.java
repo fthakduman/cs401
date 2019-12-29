@@ -30,14 +30,17 @@ public class UserAdapter {
 
     boolean isRegistered = false;
 
+    public UserAdapter(){
+
+    }
+
 
     public void register() {
 
         if (isRegistered == false) {
             userName = TestUtils.getUsername();
-            password = TestUtils.getPassword();
             userRole = TestUtils.getRole();
-            bankNames = TestUtils.getBankNames();
+            password = TestUtils.getPassword();
             randomizeRegister();
             isRegistered = true;
         }
@@ -60,12 +63,12 @@ public class UserAdapter {
 
     public void changePassword() throws Exception {
         password = TestUtils.getPassword();
-
+        randomizeUpdateUser(TestUtils.UPDATE_USER + userName);
     }
 
     public void changeRole() throws Exception {
         userRole = TestUtils.getRole();
-        randomizeUpdateUser(TestUtils.UPDATE_USER+userName);
+        randomizeUpdateUser(TestUtils.UPDATE_USER + userName);
 
     }
 
@@ -74,11 +77,12 @@ public class UserAdapter {
         userName = TestUtils.getUsername();
         System.out.println(oldName);
         System.out.println("new name: " + userName);
-        randomizeUpdateUser(TestUtils.UPDATE_USER+oldName);
+        randomizeUpdateUser(TestUtils.UPDATE_USER + oldName);
 
     }
 
     public void makeRequest() throws Exception {
+        bankNames = TestUtils.getBankNames();
         randomizeRankRequest();
     }
 
@@ -135,13 +139,13 @@ public class UserAdapter {
         headers.add("Content-Type", MediaType.APPLICATION_JSON_VALUE);
 
         headers.add("Accept", "application/json");
-        ParameterizedTypeReference<List<RankResponse>> responseType = new ParameterizedTypeReference<List<RankResponse>>() {};
-        RequestEntity<RankRequest> entity = new RequestEntity<RankRequest>(request, headers, HttpMethod.POST,URI.create(urlToken) );
+        ParameterizedTypeReference<List<RankResponse>> responseType = new ParameterizedTypeReference<List<RankResponse>>() {
+        };
+        RequestEntity<RankRequest> entity = new RequestEntity<RankRequest>(request, headers, HttpMethod.POST, URI.create(urlToken));
         ResponseEntity<List<RankResponse>> result = null;
-        try{
-            result  = rankRequest.exchange(entity,responseType );
-        }
-        catch (HttpClientErrorException h){
+        try {
+            result = rankRequest.exchange(entity, responseType);
+        } catch (HttpClientErrorException h) {
             checkRankResult(h);
         }
 
