@@ -15,6 +15,7 @@ import provider.base.util.CommonUtils;
 import userapi.base.model.UserImpl;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,35 +23,47 @@ public class UserAdapter {
     RestTemplate register;
     RestTemplate update;
     RestTemplate rankRequest;
-    String userName;
-    String password;
-    String userRole;
+    UserImpl currentUser;
     List<Map<String, String>> bankNames;
-    List<Map<String, String>> users;
+    List<UserImpl> users = new ArrayList<UserImpl>();
 
     boolean isRegistered = false;
 
     public UserAdapter(){
-
+        TestUtils.assignValues();
+        for(int i=0; i<TestUtils.USER_NAMES.size(); i++ ){
+            UserImpl user = new UserImpl();
+            user.setUserName(TestUtils.USER_NAMES.get(i));
+            user.setPassword(TestUtils.PASSWORDS.get(i));
+            user.setUserRole(TestUtils.getRole());
+            users.add(user);
+        }
+        bankNames = TestUtils.getBankNames();
     }
 
 
-    public void register() {
+    public void registerOrRandomizeUser() throws Exception{
 
         if (isRegistered == false) {
-            userName = TestUtils.getUsername();
-            userRole = TestUtils.getRole();
-            password = TestUtils.getPassword();
-            randomizeRegister();
+            users.forEach(user -> {
+                randomizeRegister(user);
+                currentUser = user;
+            });
             isRegistered = true;
         }
+        else {
+            currentUser.setUserName(TestUtils.getManipulatedUserName());
+            currentUser.setPassword(TestUtils.getManipulatedPassword());
+            currentUser.setUserRole(TestUtils.getManipulatedRole());
+        }
+
 
     }
 
     public void delete(boolean isSingle) {
         RestTemplate delete = new RestTemplate();
         String urlToken;
-        if (isSingle) urlToken = TestUtils.DELETE_USER + userName;
+        if (isSingle) urlToken = TestUtils.DELETE_USER + currentUser.getUserName();
         else {
             urlToken = TestUtils.DELETE_USER_ALL;
         }
@@ -61,47 +74,34 @@ public class UserAdapter {
         ResponseEntity<String> result = delete.exchange(urlToken, HttpMethod.DELETE, entity, String.class);
     }
 
-    public void changePassword() throws Exception {
-        password = TestUtils.getPassword();
-        randomizeUpdateUser(TestUtils.UPDATE_USER + userName);
+    public void changePassword()  {
+        currentUser.setPassword(TestUtils.getManipulatedPassword());
     }
 
-    public void changeRole() throws Exception {
-        userRole = TestUtils.getRole();
-        randomizeUpdateUser(TestUtils.UPDATE_USER + userName);
+    public void changeRole() {
+        currentUser.setUserRole(TestUtils.getManipulatedRole());
 
     }
 
-    public void changeName() throws Exception {
-        String oldName = userName;
-        userName = TestUtils.getUsername();
-        System.out.println(oldName);
-        System.out.println("new name: " + userName);
-        randomizeUpdateUser(TestUtils.UPDATE_USER + oldName);
+    public void changeName()  {
+        currentUser.setUserName(TestUtils.getManipulatedUserName());
 
     }
 
     public void makeRequest() throws Exception {
-        bankNames = TestUtils.getBankNames();
-        randomizeRankRequest();
+        randomizeRankRequest(currentUser);
     }
 
-    public void changeBankName() throws Exception {
+    public void changeBankName()  {
         bankNames = TestUtils.getBankNames();
-        randomizeRankRequest();
     }
 
     /// randomize just user info for userapi executed once
-    private void randomizeRegister() {
+    private void randomizeRegister(UserImpl body) {
         register = new RestTemplate();
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
         headers.add("Content-Type", MediaType.APPLICATION_JSON_VALUE);
         headers.add("Accept", "application/json");
-
-        UserImpl body = new UserImpl();
-        body.setUserName(userName);
-        body.setPassword(password);
-        body.setUserRole(userRole);
 
         RequestEntity<UserImpl> entity = new RequestEntity<UserImpl>(body, headers, HttpMethod.POST, URI.create(TestUtils.REGISTER_USER));
         ResponseEntity<UserImpl> result = register.exchange(entity, UserImpl.class);
@@ -109,18 +109,13 @@ public class UserAdapter {
     }
 
 
-    private void randomizeUpdateUser(String urlToken) {
+    private void randomizeUpdateUser(UserImpl body,String urlToken) {
         update = new RestTemplate();
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
         //headers.add("CONTENT_TYPE", MediaType.APPLICATION_FORM_URLENCODED_VALUE);
         headers.add("Content-Type", MediaType.APPLICATION_JSON_VALUE);
 
         headers.add("Accept", "application/json");
-        UserImpl body = new UserImpl();
-
-        body.setUserName(userName);
-        body.setPassword(password);
-        body.setUserRole(userRole);
 
         RequestEntity<UserImpl> entity = new RequestEntity<UserImpl>(body, headers, HttpMethod.PUT, URI.create(urlToken));
 
@@ -128,11 +123,11 @@ public class UserAdapter {
 
     }
 
-    private void randomizeRankRequest() throws Exception {
+    private void randomizeRankRequest(UserImpl body) throws Exception {
         rankRequest = new RestTemplate();
         RankRequest request = new RankRequest();
-        request.setUserName(userName);
-        request.setPassword(password);
+        request.setUserName(body.getUserName());
+        request.setPassword(body.getPassword());
         request.setBankNames(bankNames);
         String urlToken = TestUtils.getProviderUrl();
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();

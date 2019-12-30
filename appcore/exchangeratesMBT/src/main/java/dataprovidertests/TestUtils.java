@@ -23,6 +23,11 @@ public final class TestUtils {
     public static ArrayList<String> PROVIDER_URLS;
     public static final ArrayList<String> USER_NAMES = new ArrayList<String>();
     public static final ArrayList<String> PASSWORDS = new ArrayList<String>();
+    public static final ArrayList<String> ROLES = new ArrayList<String>();
+    public static final ArrayList<String> MANIPULATED_USER_NAMES = new ArrayList<String>();
+    public static final ArrayList<String> MANIPULATED_PASSWORDS = new ArrayList<String>();
+    public static final ArrayList<String> MANIPULATED_ROLES = new ArrayList<String>();
+    public static List<Map<String, String>> bankNames = new ArrayList<Map<String, String>>();
 
     public static String getProviderUrl() {
         PROVIDER_URLS = new ArrayList<String>();
@@ -48,16 +53,42 @@ public final class TestUtils {
 
     public static String getRole() {
         Random random = new Random();
-        ArrayList<String> roles = new ArrayList<String>();
-        roles.add(ADMIN_ROLE);
-        roles.add(STANDART_ROLE);
-        roles.add(PREMIUM_ROLE);
-
-        return roles.get(random.nextInt(roles.size()));
+        return ROLES.get(random.nextInt(ROLES.size()));
+    }
+    public static String getManipulatedRole() {
+        Random random = new Random();
+        return MANIPULATED_ROLES.get(random.nextInt(MANIPULATED_ROLES.size()));
     }
 
     public static String getUsername() {
         Random random = new Random();
+        return USER_NAMES.get(random.nextInt(USER_NAMES.size()));
+    }
+    public static String getManipulatedUserName() {
+        Random random = new Random();
+        return MANIPULATED_USER_NAMES.get(random.nextInt(MANIPULATED_USER_NAMES.size()));
+    }
+    public static String getPassword() {
+        Random random = new Random();
+        return PASSWORDS.get(random.nextInt(PASSWORDS.size()));
+    }
+    public static String getManipulatedPassword() {
+        Random random = new Random();
+        return MANIPULATED_PASSWORDS.get(random.nextInt(MANIPULATED_PASSWORDS.size()));
+    }
+
+    public static List<Map<String, String>> getBankNames() {
+        Random random = new Random();
+
+        int removecount = random.nextInt(bankNames.size());
+        for (int i = 0; i < removecount; i++) {
+            bankNames.remove(random.nextInt(bankNames.size()));
+        }
+
+        return bankNames;
+    }
+
+    public static void assignValues() {
         USER_NAMES.add("mustafa");
         USER_NAMES.add("fatih");
         USER_NAMES.add("ozu");
@@ -65,11 +96,11 @@ public final class TestUtils {
         USER_NAMES.add("jack");
         USER_NAMES.add("sheldon");
         USER_NAMES.add("penny");
-        return USER_NAMES.get(random.nextInt(USER_NAMES.size()));
+        MANIPULATED_USER_NAMES.addAll(USER_NAMES);
+        MANIPULATED_USER_NAMES.add("selim");
+        MANIPULATED_USER_NAMES.add("musa");
+        MANIPULATED_USER_NAMES.add("nicholson");
 
-    }
-    public static String getPassword() {
-        Random random = new Random();
         PASSWORDS.add("mustafapass");
         PASSWORDS.add("fatihpass");
         PASSWORDS.add("ozupass");
@@ -77,11 +108,12 @@ public final class TestUtils {
         PASSWORDS.add("jackpassw");
         PASSWORDS.add("sheldonpasswd");
         PASSWORDS.add("pennypasswd ");
-        return PASSWORDS.get(random.nextInt(PASSWORDS.size()));
-    }
-    public static List<Map<String, String>> getBankNames() {
-        Random random = new Random();
-        List<Map<String, String>> bankNames =  new ArrayList<Map<String, String>>();
+        MANIPULATED_PASSWORDS.addAll(PASSWORDS);
+        MANIPULATED_PASSWORDS.add("xyz");
+        MANIPULATED_PASSWORDS.add("abc");
+        MANIPULATED_PASSWORDS.add("def");
+
+
         HashMap<String, String> ykb = new HashMap<String, String>();
         ykb.put("bankName", CommonUtils.ykb);
         HashMap<String, String> isb = new HashMap<String, String>();
@@ -95,10 +127,14 @@ public final class TestUtils {
         bankNames.add(dnz);
         bankNames.add(mockBank);
 
-        int removecount = random.nextInt(bankNames.size());
-        for(int i =0; i<removecount; i++){
-            bankNames.remove(random.nextInt(bankNames.size())); }
+        ROLES.add(ADMIN_ROLE);
+        ROLES.add(STANDART_ROLE);
+        ROLES.add(PREMIUM_ROLE);
 
-    return bankNames;
+        MANIPULATED_ROLES.addAll(ROLES);
+        MANIPULATED_ROLES.add("GOLD");
+        MANIPULATED_ROLES.add("PLATINIUM");
+
+
     }
 }

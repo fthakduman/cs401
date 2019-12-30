@@ -12,10 +12,10 @@ public class UserTester {
     public static void main(String[] argv) {
 
         UserModel model = new UserModel();
-        Tester tester = new LookaheadTester(model);
+        //Tester tester = new LookaheadTester(model);
         //RandomTester tester = new RandomTester(model);
-        // Tester tester = new AllRoundTester(model);
-        // Tester tester = new GreedyTester(model);
+        //Tester tester = new AllRoundTester(model);
+      Tester tester = new GreedyTester(model);
         tester.buildGraph();
 
         tester.addListener(new VerboseListener());
@@ -23,8 +23,9 @@ public class UserTester {
         tester.addCoverageMetric(new TransitionCoverage());
         tester.addCoverageMetric(new StateCoverage());
         tester.addCoverageMetric(new ActionCoverage());
-        tester.generate(20);
+        tester.generate(500);
         tester.printCoverage();
+        model.userAdapter.delete(false);
     }
 
 }
